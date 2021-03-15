@@ -21,3 +21,12 @@
   </tr>
 </table>
 
+## Conventions
+
+#### Git commit
+- Your commit message should start with any of prefix in {progress, fix}, indicating the purpose of the commit
+- Example message: "progress: Finished homepage" or "fix: User model will not throw any errors now"
+
+#### Coding convention
+- No convention, for now
+
