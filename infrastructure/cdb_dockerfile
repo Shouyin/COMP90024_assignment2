@@ -1,0 +1,4 @@
+FROM couchdb
+
+ENV COUCHDB_USER=dbuser
+ENV COUCHDB_PASSWORD=weakpw123
