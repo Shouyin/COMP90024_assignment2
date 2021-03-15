@@ -26,6 +26,11 @@
   </tr>
 </table>
 
+## How to run this
+```bash
+docker-compose up
+```
+
 ## Conventions
 
 #### Git branching
