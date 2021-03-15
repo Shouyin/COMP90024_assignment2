@@ -1,5 +1,10 @@
 # COMP90024_assignment2
 
+![All Contributors](https://img.shields.io/badge/-5%20Contributors-blue)
+<pre>
+🌥 COMP90024 Cluster and Cloud Computing
+🏫 The University of Melbourne 2021S1
+</pre>
 
 ## Contributors
 
