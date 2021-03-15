@@ -23,6 +23,10 @@
 
 ## Conventions
 
+#### Git branching
+- You should start a new branch if you want to fix, or make new changes to the existing stable codebase
+- When you think your new codes are ready to be merged (after testing and you think your new codes are stable), send a message in the WeChat group and then merge to the master branch
+
 #### Git commit
 - Your commit message should start with any of prefix in {progress, fix}, indicating the purpose of the commit
 - Example message: "progress: Finished homepage" or "fix: User model will not throw any errors now"
