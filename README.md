@@ -9,6 +9,7 @@
 ## Contributors
 
 <!-- Contributor List table--->
+Press the icon button, you can see all commits made by that contributor.
 <table>
   <tr>
     <!-- Maoting Zuo Profile-->
