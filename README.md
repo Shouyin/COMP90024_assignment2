@@ -29,7 +29,8 @@ Press the icon button, you can see all commits made by that contributor.
 
 ## How to run this
 ```bash
-docker-compose up
+docker-compose up --build # 第一次启动： 需要build
+docker-compose up # 之后启动用这行： 不需要build
 ```
 
 ## Conventions
