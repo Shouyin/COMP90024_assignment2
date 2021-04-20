@@ -1,0 +1,8 @@
+- name: copy scripts
+  ansible.builtin.copy:
+    src: "{{ local_script }}"
+    dest: "{{ remote_script }}"
+    mode: '0777'
+
+- name: run scripts
+  ansible.builtin.shell: "{{ remote_script }} > ~/sout.txt"
