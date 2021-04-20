@@ -1,0 +1,57 @@
+avzone: melbourne-qh2-uom
+
+volumes:
+  - vol_name: v1
+    vol_size: 20
+
+security_groups:
+  - name: autossh
+    description: "auto ssh"
+    protocol: tcp
+    port_range_min: 22
+    port_range_max: 22
+    remote_ip_prefix: 0.0.0.0/0
+    direction: ingress
+  - name: autohttp
+    description: "auto http"
+    protocol: tcp
+    port_range_min: 80
+    port_range_max: 80
+    remote_ip_prefix: 0.0.0.0/0
+    direction: ingress
+  - name: autocdb
+    description: "auto cdb"
+    protocol: tcp
+    port_range_min: 5984
+    port_range_max: 5984
+    remote_ip_prefix: 0.0.0.0/0
+    direction: ingress
+  - name: autoegress
+    description: "auto egress"
+    protocol: tcp
+    port_range_min: 1
+    port_range_max: 65535
+    remote_ip_prefix: 0.0.0.0/16
+    direction: egress
+  - name: autobk
+    description: "auto bk"
+    protocol: tcp
+    port_range_min: 8000
+    port_range_max: 8000
+    remote_ip_prefix: 0.0.0.0/16
+    direction: ingress
+
+instances:
+  - name: n1
+    volumes: [v1]
+    flavor: uom.mse.2c9g
+  - name: n2
+    volumes: []
+    flavor: uom.mse.2c9g
+  - name: n3
+    volumes: []
+    flavor: uom.mse.2c9g
+
+instance_image: f8b79936-6616-4a22-b55d-0d0a1d27bceb
+instance_key_name: zuomkey
+# instance_flavor_2c8g: uom.mse.2c9g
