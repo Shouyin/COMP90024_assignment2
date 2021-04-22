@@ -1,5 +1,5 @@
 import React from "react";
-import HomePageMap from "./components/map.js";
+import DisplayMap from "./components/displayMap.js";
 import geojsonAU from "./shapes/geojsonAU.json";
 import geojsonAULess from "./shapes/geojsonAUless.json";
 import geojsonLGAvc from "./shapes/geojsonLGAvc.json";
@@ -7,7 +7,7 @@ import geojsonLGAvc from "./shapes/geojsonLGAvc.json";
 
 
 let HomePage = () => {
-  return <HomePageMap
+  return <DisplayMap
     width={"100vw"}
     height={"100vh"}
     viewport={{

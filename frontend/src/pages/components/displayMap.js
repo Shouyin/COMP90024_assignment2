@@ -79,11 +79,11 @@ function Map(props) {
   );
 }
 
-let MainMap = (props) => {
+let DisplayMap = (props) => {
   // console.log(props.geojsonData);
   return <div style={{backgroundColor: "#424642", width: props.width, height: props.height} }>
     <Map viewport={props.viewport} geojsonData={props.geojsonData}/>
   </div>
 }
 
-export default MainMap;
+export default DisplayMap;
