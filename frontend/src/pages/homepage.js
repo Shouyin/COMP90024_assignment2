@@ -28,7 +28,7 @@ let getMap = (data, mapType, geojson, viewport) => {
 let getControlWrapper = (insideControl, title) => {
   const [expanded, setExpanded] = useState(false);
 
-  return <Accordion expanded={expanded} onChange={(e, ex) => setExpanded(ex)}>
+  return <Accordion elevation={2} expanded={expanded} onChange={(e, ex) => setExpanded(ex)}>
     <AccordionSummary
       expandIcon={<ExpandMoreIcon />}>
       <Typography>{title}</Typography>
@@ -52,15 +52,24 @@ let getControl = (scenario, setGeoJsonData) => {
     <Paper elevation={2} style={{margin: "0px 0px 16px 0px"}}>
       <Typography variant="h6" component="h6" style={{padding: "16px 16px"}}>CONTROLS</Typography>
     </Paper>
-    <div style={{ maxHeight: "calc(100vh - 240px)", overflowY: "scroll", overflowX: "visible"}}>
+    <div style={{ maxHeight: "calc(100vh - 240px)", padding: "2px", overflowY: "scroll", overflowX: "visible" }}>
+    {getControlWrapper(<div><Button onClick={() => setGeoJsonData(geojsonAU)}>
+       scenario 1
+      </Button>
+      <Button onClick={() => setGeoJsonData(geojsonAU)}>
+          scenario 2
+      </Button>
+      <Button onClick={() => setGeoJsonData(geojsonAU)}>
+        free
+      </Button>
+        </div>, "Modes")}
+    {getControlWrapper(<Button onClick={() => setGeoJsonData(geojsonAU)}>
+      change
+      </Button>, "Locations")}
+
       {getControlWrapper(<Button onClick={() => setGeoJsonData(geojsonAU)}>
         change
-      </Button>, "Tweet index")}
-    
-      {getControlWrapper(<Typography>
-        Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat. Aliquam eget
-        maximus est, id dignissim quam.
-      </Typography>, "Complains about traffic")}
+      </Button>, "Music")}
     </div>
   </div>
 }
@@ -98,13 +107,30 @@ let HomePage = () => {
           >
             <Tab label="Assignment 2" disabled />
             <Tab label="HOME" />
-            <Tab label="SCENARIO 1" />
-            <Tab label="SCENARIO 2" />
+            <Tab label="MELBOURNE" />
           </Tabs>
         </Paper>
       </header>
       {getControl("", setGeoJsonData)}
       {getMap("", "", geojsonData, defaultViewport)}
+      <Paper elevation={3} style={{padding: "32px", backgroundColor: "white", zIndex: 1, position: "fixed", right: "0px", top: "0px", height: "95vh", width: "25vw", overflow: "scroll"}}>
+        <h1>Melbourne</h1>
+        <DisplayMap
+          width={"300px"}
+          height={"200px"}
+          viewport={defaultViewport} // initial viewport
+          geojsonData={geojsonAULess}
+        />
+        <p>edilfas iukerghf iuazse gifhszaiue</p>
+        <DisplayMap
+          width={"300px"}
+          height={"300px"}
+          viewport={defaultViewport} // initial viewport
+          geojsonData={geojsonAULess}
+        />
+        <p>edilfas iukerghf iuazse gifhszaiue</p>
+      </Paper>
+
     </div>
   );
 };
