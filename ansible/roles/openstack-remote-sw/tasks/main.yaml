@@ -1,0 +1,4 @@
+- name: templtt
+  ansible.builtin.template:
+    src: remote_scripts/manager.sh
+    dest: ~/manager.sh
