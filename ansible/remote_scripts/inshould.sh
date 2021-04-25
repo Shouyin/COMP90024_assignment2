@@ -27,6 +27,8 @@ echo "install docker"
 echo "======================="
 sudo apt-get update
 
+sudo apt install unzip
+
 sudo apt-get -y install \
     apt-transport-https \
     ca-certificates \

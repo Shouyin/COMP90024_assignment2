@@ -26,6 +26,13 @@ security_groups:
     port_range_max: 5984
     remote_ip_prefix: 0.0.0.0/0
     direction: ingress
+  - name: autoswarm
+    description: "auto swarm"
+    protocol: tcp
+    port_range_min: 2377
+    port_range_max: 2377
+    remote_ip_prefix: 0.0.0.0/16
+    direction: ingress
   - name: autoegress
     description: "auto egress"
     protocol: tcp

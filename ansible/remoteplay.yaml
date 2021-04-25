@@ -4,7 +4,7 @@
     ansible_python_interpreter: /usr/bin/python3
   vars_files:
     - remote_vars/rv.yaml
-  # gather_facts: true
+  gather_facts: true
 
   roles:
-  - openstack-remote-env
+  - openstack-remote-sw
