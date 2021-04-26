@@ -48,6 +48,9 @@ sudo apt-get update
 sudo apt-get -y install docker-ce docker-ce-cli containerd.io
 
 sudo mkdir ~/.docker
+sudo touch ~/.docker/config.json
+sudo chmod 777 ~/.docker/config.json
+
 sudo echo "
 {
  \"proxies\":

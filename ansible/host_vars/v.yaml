@@ -33,13 +33,6 @@ security_groups:
     port_range_max: 2377
     remote_ip_prefix: 0.0.0.0/16
     direction: ingress
-  - name: autoegress
-    description: "auto egress"
-    protocol: tcp
-    port_range_min: 1
-    port_range_max: 65535
-    remote_ip_prefix: 0.0.0.0/16
-    direction: egress
   - name: autobk
     description: "auto bk"
     protocol: tcp
@@ -47,6 +40,56 @@ security_groups:
     port_range_max: 8000
     remote_ip_prefix: 0.0.0.0/16
     direction: ingress
+  - name: autocc
+    description: "auto cc"
+    protocol: tcp
+    port_range_min: 4369
+    port_range_max: 4369
+    remote_ip_prefix: 0.0.0.0/16
+    direction: ingress
+  - name: autoccc
+    description: "auto ccc"
+    protocol: tcp
+    port_range_min: 9100
+    port_range_max: 9200
+    remote_ip_prefix: 0.0.0.0/16
+    direction: ingress
+  - name: autoswarm2
+    description: "auto swarm2"
+    protocol: tcp
+    port_range_min: 7946
+    port_range_max: 7946
+    remote_ip_prefix: 0.0.0.0/16
+    direction: ingress
+  - name: autoswarm2udp
+    description: "auto swarmudp"
+    protocol: udp
+    port_range_min: 7946
+    port_range_max: 7946
+    remote_ip_prefix: 0.0.0.0/16
+    direction: ingress
+  - name: autoswarm2uudp
+    description: "auto swarmuudp"
+    protocol: udp
+    port_range_min: 4789
+    port_range_max: 4789
+    remote_ip_prefix: 0.0.0.0/16
+    direction: ingress
+  - name: autoim
+    description: "auto im"
+    protocol: icmp
+    port_range_min: 1
+    port_range_max: 65535
+    remote_ip_prefix: 0.0.0.0/0
+    direction: ingress
+  - name: autoegress
+    description: "auto egress"
+    protocol: tcp
+    port_range_min: 1
+    port_range_max: 65535
+    remote_ip_prefix: 0.0.0.0/16
+    direction: egress
+
 
 instances:
   - name: n1
