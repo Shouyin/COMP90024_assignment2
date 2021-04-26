@@ -10,6 +10,6 @@
     # - role: openstack-images
     # - role: openstack-volume
     - role: openstack-security-group
-    - role: openstack-instance
+    # - role: openstack-instance
     # - role: openstack-volume-snapshot
   

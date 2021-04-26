@@ -21,6 +21,11 @@
   loop: '{{ os_instance.results }}'
   when: item.openstack is defined
 
+- name: Create a list of security group names
+  set_fact:
+    instips: '{{ instips|default([]) + [ item.openstack.public_v4 ] }}'
+  loop: '{{ os_instance.results }}'
+
 - name: Wait for connection
   wait_for:
     host: "{{ item.openstack.public_v4 }}"
