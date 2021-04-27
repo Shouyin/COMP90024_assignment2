@@ -1,7 +1,7 @@
 FROM couchdb
 
 ENV COUCHDB_USER=dbuser
-ENV COUCHDB_PASSWORD=weakpw123
+# ENV COUCHDB_PASSWORD=weakpw123
 
 ENV COUCHDB_COOKIE="ass2cookie"
 
@@ -17,9 +17,20 @@ ENV no_proxy="localhost,127.0.0.1,localaddress,172.16.0.0/12,.melbourne.rc.necta
 
 RUN apt update && apt install -y curl
 
+ENV ERL_FLAGS="-setcookie ass2cookie"
+
+ENV no_proxy1=${no_proxy}
+ENV no_proxy="*"
+
+# ENV COUCHDB_SECRET="mysecret"
+
 COPY cc.sh /cc.sh
-
 COPY vm.args /home/couchdb/couchdb/etc/vm.args
+COPY config.ini /opt/couchdb/etc/local.d/config.ini
 
-RUN echo "-name couchdb@couchdb${TASK_SLOT}" >> /home/couchdb/couchdb/etc/vm.args
+# COPY ep.sh /ep.sh
+
+# RUN echo "-name couchdb@couchdb${TASK_SLOT}" >> /home/couchdb/couchdb/etc/vm.args
 RUN echo "-cookie \"$COUCHDB_COOKIE\"" >> /home/couchdb/couchdb/etc/vm.args
+
+# CMD ["/bin/bash", "/ep.sh"]

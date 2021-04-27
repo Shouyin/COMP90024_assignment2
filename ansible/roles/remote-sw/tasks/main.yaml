@@ -1,0 +1,20 @@
+---
+- name: templtt
+  ansible.builtin.template:
+    src: remote_scripts/manager.sh
+    dest: ~/manager.sh
+    mode: 0777
+
+- name: initswarm
+  ansible.builtin.shell: "bash ~/manager.sh"
+  register: rawtoken
+
+- set_fact:
+    rawtoken2: "{{ rawtoken }}"
+  
+- debug: var=rawtoken2
+
+
+  # debug: var=ansible_default_ipv4.address
+
+  # turn on 

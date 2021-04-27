@@ -1,0 +1,17 @@
+- name: why do we need to make a dir first
+  ansible.builtin.shell: "cd ~ && mkdir db"
+  ignore_errors: yes
+
+- name: give db
+  ansible.builtin.copy:
+    src: "remote_packs/arcc.zip"
+    dest: "~/db/arcc.zip"
+
+- name: build db
+  ansible.builtin.shell: "cd ~/db && rm -r -f cc && unzip arcc.zip -d cc && cd cc && cd cc && sudo docker build -t cclu ."
+
+- name: give servicesh
+  ansible.builtin.copy:
+    src: "remote_scripts/manager-db.sh"
+    dest: "~/db/manager-db.sh"
+
