@@ -9,7 +9,7 @@
 
 - name: Create a list of security group names
   set_fact:
-    sg_names: '{{ sg_names|default([]) + [ item.name ] }}'
+    sg_names: '{{ sg_names|default(["default"]) + [ item.name ] }}'
   loop: '{{ security_groups }}'
 
 - debug:
