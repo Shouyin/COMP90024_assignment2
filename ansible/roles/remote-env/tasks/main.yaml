@@ -5,4 +5,4 @@
     mode: '0777'
 
 - name: run scripts
-  ansible.builtin.shell: "{{ remote_script }} > ~/sout.txt"
+  ansible.builtin.shell: "bash {{ remote_script }} > ~/sout.txt"

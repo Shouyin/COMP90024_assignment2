@@ -5,34 +5,43 @@
 #   vars_files:
 #     - remote_vars/rv.yaml
 #   gather_facts: true
-# 
+#   tasks:
+#     - shell: 'sudo mkdir {{ dataroot }} && sudo mkfs.ext4 /dev/vdb && sudo mount /dev/vdb {{ dataroot }} && sudo chmod -R 777 {{ dataroot }} && sudo mkdir {{ dbdata }}'
+
+# - hosts: servers
+#  remote_user: ubuntu
+#  vars:
+#    ansible_python_interpreter: /usr/bin/python3
+#  vars_files:
+#    - remote_vars/rv.yaml
+#  gather_facts: true
+#  roles:
+#  - remote-env
+
+# - hosts: servers[0]
+#   remote_user: ubuntu
+#   vars:
+#     ansible_python_interpreter: /usr/bin/python3
+#   gather_facts: true
 #   roles:
-#   - remote-env
+#   - remote-sw
+#   - remote-dkntwk
 
-- hosts: servers[0]
-  remote_user: ubuntu
-  vars:
-    ansible_python_interpreter: /usr/bin/python3
-  gather_facts: true
-  roles:
-  - remote-sw
-  - remote-dkntwk
+# - hosts: servers[1:]
+#   remote_user: ubuntu
+#   vars:
+#     ansible_python_interpreter: /usr/bin/python3
+#   gather_facts: true
+#   roles:
+#   - remote-wker
 
-- hosts: servers[1:]
-  remote_user: ubuntu
-  vars:
-    ansible_python_interpreter: /usr/bin/python3
-  gather_facts: true
-  roles:
-  - remote-wker
-
-- hosts: servers
-  remote_user: ubuntu
-  vars:
-    ansible_python_interpreter: /usr/bin/python3
-  gather_facts: true
-  roles:
-  - remote-db
+# - hosts: servers
+#   remote_user: ubuntu
+#   vars:
+#     ansible_python_interpreter: /usr/bin/python3
+#   gather_facts: true
+#   roles:
+#   - remote-db
 
 - hosts: servers[0]
   remote_user: ubuntu
@@ -54,6 +63,7 @@
         nodename2: "{{ nodename }}"
     - debug:
         var: nodename
+    - ansible.builtin.shell: sudo docker exec -it $(sudo docker ps -q -f name=couchdb) curl -X PUT "http://admin:weakpw123@127.0.0.1:5984/_users"
 
 - hosts: servers[0]
   remote_user: ubuntu
@@ -66,6 +76,7 @@
       loop: "{{ groups[\"servers\"][1:] }}"
     - debug:
         var: nodens
+    - ansible.builtin.shell: sudo docker exec -it $(sudo docker ps -q -f name=couchdb) curl -X PUT "http://admin:weakpw123@127.0.0.1:5984/_users"
     - ansible.builtin.shell: 'sudo docker exec -it $(sudo docker ps -q -f name=couchdb) curl -X PUT "http://admin:weakpw123@127.0.0.1:5984/_node/_local/_nodes/couchdb@{{ item }}" -d {}'
       loop: "{{ nodens }}"
     - ansible.builtin.shell: "sudo docker exec -it $(sudo docker ps -q -f name=couchdb) curl -X POST -H \"Content-Type: application/json\"  \"http://admin:weakpw123@127.0.0.1:5984/_cluster_setup\" -d '{\"action\": \"finish_cluster\"}'"
