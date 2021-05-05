@@ -9,17 +9,17 @@ if [[ -z "${TH_CITYNAME}" ]]; then
 fi
 
 
-if [[ -z "${TH_KWCITYNAME}" ]]; then
-  echo "no CITYNAME (-kwreg) specified"
-  exit 1
-fi
+# if [[ -z "${TH_KWCITYNAME}" ]]; then
+#   echo "no CITYNAME (-kwreg) specified"
+#   exit 1
+# fi
 
 RUNSERVICE="sudo docker service create \
     --name ${TH_CITYNAME} \
     --network couchdbnetwork \
     -e TH_DB=${TH_DB} \
     -e TH_CITYNAME=${TH_CITYNAME} \
-    -e TH_KWCITYNAME=${TH_KWCITYNAME} \
+    -e TH_KWCITYNAME=${TH_CITYNAME} \
     th
 "
 

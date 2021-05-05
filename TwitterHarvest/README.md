@@ -19,7 +19,7 @@
 3. IF you’re deploying the harvester for the **first time**: run `deploy-run.sh`, meanwhile setting up the environment variable like this:
 
    1. ``````
-      TH_DB=test1 TH_CITYNAME=Melbourne TH_KWCITYNAME=Melbourne bash "deploy-run.sh"
+      TH_DB=test1 TH_CITYNAME=Melbourne bash "deploy-run.sh"
       ``````
 
 
