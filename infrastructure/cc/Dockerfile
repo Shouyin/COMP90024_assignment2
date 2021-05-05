@@ -15,7 +15,7 @@ ENV https_proxy=http://wwwproxy.unimelb.edu.au:8000/
 
 ENV no_proxy="localhost,127.0.0.1,localaddress,172.16.0.0/12,.melbourne.rc.nectar.org.au,.storage.unimelb.edu.au,.cloud.unimelb.edu.au,couchdb1,couchdb2,couchdb3,couchdb4"
 
-RUN apt update && apt install -y curl
+RUN apt install -y curl
 
 ENV ERL_FLAGS="-setcookie ass2cookie"
 
