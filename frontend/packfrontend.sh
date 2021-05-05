@@ -1,0 +1,7 @@
+yarn build && zip -r build.zip build/
+
+scp build.zip ubuntu@172.26.129.77: && \
+scp build.zip ubuntu@172.26.133.93: && \
+scp build.zip ubuntu@172.26.130.32:
+
+ssh ubuntu@172.26.129.77 "unzip build.zip -d /data && mv -f /data/build /data/nginx"
