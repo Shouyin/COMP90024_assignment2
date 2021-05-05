@@ -9,6 +9,9 @@ import { Fab, Paper, Tabs, Tab, Accordion, AccordionSummary, Typography, Accordi
 import { Add as AddIcon, ExpandMore as ExpandMoreIcon } from '@material-ui/icons';
 
 
+// mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
+
+
 const defaultViewport = {
   latitude: -25.27,
   longitude: 133.77,

@@ -7,8 +7,11 @@ import {
   ZoomableGroup,
 } from "react-simple-maps";
 import geojsonAULess from "../shapes/geojsonAUless.json";
+import mapboxgl from "mapbox-gl";
 import geojsonAU from "../shapes/geojsonAU.json";
 import ReactMapGL, { Source, Layer } from "react-map-gl";
+
+mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
 const stroke = "#424642";
 const fill = "#F3F4ED";
