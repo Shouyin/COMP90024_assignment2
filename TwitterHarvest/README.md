@@ -40,7 +40,7 @@ TH_CITYNAME=Melbourne bash shutdown.sh
 
 to shutdown (and remove) the harvester of Melbourne.
 
-Since we giving -re and -kw same city, then only one city name is required.
+Since we are giving -re and -kw same city, then only one city name is required.
 
 
 
