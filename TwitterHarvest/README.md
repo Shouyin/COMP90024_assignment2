@@ -14,19 +14,19 @@
 
 2. run `deploy.sh`
 
-   1. It will zip the TwitterHarvester, send it to all nodes and build the docker images on them.
+   1. It will compress the TwitterHarvester, send it to all nodes and build the docker images on them.
 
-3. IF you’re deploying the harvester for the **first time**: run `dp-run.sh`, meanwhile setting up the environment variable like this:
+3. IF you’re deploying the harvester for the **first time**: run `deploy-run.sh`, meanwhile setting up the environment variable like this:
 
    1. ``````
-      TH_DB=test1 TH_CITYNAME=Melbourne TH_KWCITYNAME=Melbourne bash "run(after deploy).sh"
+      TH_DB=test1 TH_CITYNAME=Melbourne TH_KWCITYNAME=Melbourne bash "deploy-run.sh"
       ``````
 
-4. IF you’re updating the harvester: NOT DONE YET
 
 
+NOTE that the service will be named using the `TH_CITYNAME` environment variable, and two services CANNOT use the same name.
 
-NOTICE that the service will be named using the `TH_CITYNAME` environment variable, and two services CANNOT use the same name.
+NOTE if you want to update your
 
 
 
@@ -38,7 +38,7 @@ You can use
 TH_CITYNAME=Melbourne bash shutdown.sh
 ``````
 
-to shutdown the harvester of Melbourne.
+to shutdown (and remove) the harvester of Melbourne.
 
 Since we giving -re and -kw same city, then only one city name is required.
 
