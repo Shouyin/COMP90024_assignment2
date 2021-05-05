@@ -1,3 +1,8 @@
+"""
+COMP90024 Cluster and CLoud Computing Assignment 2
+Cities: Melbourne, Sydney, Brisbane, Canberra
+"""
+
 import sys
 import json
 import store
@@ -6,12 +11,16 @@ import argparse
 import threading
 from TwitterAPI.TwitterAPI import TwitterAPI
 
+
+KEYWORD_LIST = ['beer', 'boba tea', 'tea', 'whiskey', 'tequila', 'juice', 'milk', 'bubble tea', '#thai food', 'korean food', 'sushi', 'hamburgers', 'burgers', 'hotpot', '#Chinese food', 'dumplings', 'noodles', 'soup', 'fries', 'steak', 'ice cream', '#cheese', 'youghurt', 'froyo', '#ScottMorrison', '#COVID19', '#bushfire', '#jobseekers', '#kangarooisland', '#naturalHazard', '#Recruiting', '#Staffing', '#Hiring', '#jobsearch']
+
 # json files
 JSON_PATH = "json_files/"
 FILE_DICT = {
     "db_auth": "db_auth.json",
     "twitter_api": "twitterAPI_auth.json",
     "bounding": "bounding_squares.json",
+    "geocode": "geocode.json"
     }
 
 # list of user ids for timeline harvesting
@@ -24,7 +33,9 @@ def get_args():
     # database name
     parser.add_argument("-db", "--db_name", type = str, required = True, 
                         help = "Name of Database for storing")
-    parser.add_argument("-reg", "--region", type = str, required = True, 
+    parser.add_argument("-re", "--region", type = str, required = True, 
+                        help = "Melbourne/Brisbane/Sydney/Canberra")
+    parser.add_argument("-kwreg", "--keyword_region", type = str, required = True, 
                         help = "Melbourne/Brisbane/Sydney/Canberra")               
     args = parser.parse_args()
     
@@ -43,7 +54,10 @@ def read_jsons():
     with open(JSON_PATH + FILE_DICT["twitter_api"], "r") as f:
         api_auths = json.load(f)["keys"]
 
-    return bounding, db_auth, api_auths
+    with open(JSON_PATH + FILE_DICT["geocode"], "r") as f:
+        geocode = json.load(f)
+
+    return bounding, db_auth, api_auths, geocode
 
 def twitter_user_timeline(api, db_name):
     """ Getting tweets from user timeline """
@@ -57,33 +71,39 @@ def twitter_user_timeline(api, db_name):
         uid = uid_ls.pop(0)
 
         try:
-            for item in api.request("statuses/user_timeline", {"user_id": uid, "count": 100}):
-                if ("text" in item) and item['lang'] == 'en':
+            for item in api.request("statuses/user_timeline", {"user_id": uid, "count": 200}):
+                if ("text" in item) and (item['lang'] == 'en') and (item['place'] != None):
 
                     # save tweet to database
                     store.save_tweet(db_name, item)
 
                 elif 'message' in item:
-                    print('66 ERROR in current Tweet %s: %s\n' % (item['code'], item['message']))
-        except:
-            print("68 Account has reached limit")
+                    print('80 ERROR in current Tweet %s: %s\n' % (item['code'], item['message']))
+        except Exception as e:
+            print("82 ERROR", str(e))
             pass
 
 
-def twitter_keyword_search(api, db_name):
+def twitter_keyword_search(api, db_name, kw_region):
     """ Real-time twitter streaming """
+    for word in KEYWORD_LIST:
+        try:
+            for item in api.request("search/tweets", {"q": word, 
+                                                "count": 100,
+                                                "lang": "en", 
+                                                "geocode": kw_region}):
+                if ("text" in item) and (item['place'] != None):
+                    #print('SEARCH: %s -- %s\n' % (item['user']['screen_name'], item['text']))
+                    # save tweet to database
+                    store.save_tweet(db_name, item)
+                    uid_ls.append(item["user"]["id"])
 
-    for item in api.request("search/tweets", {"q": 'pizza OR hotpot', 
-                                              "count": 20, 
-                                              "lang": "en", 
-                                              "geocode": "-37.38, 146.21, 201km"}):
-        if "text" in item:
-            print('SEARCH: %s -- %s\n' % (item['user']['screen_name'], item['text']))
-            # save tweet to database
-            store.save_tweet(db_name, item)
+                elif 'message' in item:
+                    print('101 ERROR %s: %s\n' % (item['code'], item['message']))
+        except Exception as e:
+            print("103 ERROR", str(e))
+            pass
 
-        elif 'message' in item:
-            print('ERROR %s: %s\n' % (item['code'], item['message']))
 
 
 def twitter_streaming(api, db_name, bounding, region):
@@ -94,7 +114,7 @@ def twitter_streaming(api, db_name, bounding, region):
     while True:
         try:
             for item in api.request("statuses/filter", {"locations": bounding[region]}):
-                if "text" in item:
+                if ("text" in item) and (item['place'] != None):
                     # print('STREAM: %s -- %s\n' % (item['user']['screen_name'], item['text']))
 
                     # save tweet to database
@@ -102,9 +122,9 @@ def twitter_streaming(api, db_name, bounding, region):
                     uid_ls.append(item["user"]["id"])
 
                 elif 'message' in item:
-                    print('86 ERROR in current Tweet %s: %s\n' % (item['code'], item['message']))
-        except:
-            print("92 Current account reached limit")
+                    print('124 ERROR in current Tweet %s: %s\n' % (item['code'], item['message']))
+        except Exception as e:
+            print("126 ERROR", str(e))
             pass
 
 def main():
@@ -113,7 +133,7 @@ def main():
     args = get_args()
 
     # read required json files
-    bounding, db_auth, api_auths = read_jsons()
+    bounding, db_auth, api_auths, geocode = read_jsons()
 
     # pass authentication credentials url
     url = "http://" + db_auth["user"] + ":" + db_auth["pwd"] \
@@ -136,12 +156,14 @@ def main():
                         api_auth["ACCESS_TOKEN_SECRET"])
         apis.append(api)
 
-    t1 = threading.Thread(target=twitter_streaming, args=(apis[0:2], db, bounding, args.region))
-    t2 = threading.Thread(target=twitter_user_timeline, args=(apis[2], db))
-
+    t1 = threading.Thread(target=twitter_streaming, args=(apis[0], db, bounding, args.region))
+    t2 = threading.Thread(target=twitter_keyword_search, args=(apis[1], db, geocode[args.keyword_region]))
+    t3 = threading.Thread(target=twitter_user_timeline, args=(apis[2], db))
+    
     # start streaming and getting timelines
     t1.start()
     t2.start()
+    t3.start()
 
 if __name__ == "__main__":
     main()
