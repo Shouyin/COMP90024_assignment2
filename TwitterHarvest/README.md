@@ -26,7 +26,7 @@
 
 NOTE that the service will be named using the `TH_CITYNAME` environment variable, and two services CANNOT use the same name.
 
-NOTE if you want to update your
+NOTE if you want to update your harvester, you first shutdown the harvest, then `deploy` and lastly `deploy-run`.
 
 
 
