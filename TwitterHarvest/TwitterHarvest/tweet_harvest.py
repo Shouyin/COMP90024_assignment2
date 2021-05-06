@@ -12,7 +12,12 @@ import threading
 from TwitterAPI.TwitterAPI import TwitterAPI
 
 
-KEYWORD_LIST = ['beer', 'boba tea', 'tea', 'whiskey', 'tequila', 'juice', 'milk', 'bubble tea', '#thai food', 'korean food', 'sushi', 'hamburgers', 'burgers', 'hotpot', '#Chinese food', 'dumplings', 'noodles', 'soup', 'fries', 'steak', 'ice cream', '#cheese', 'youghurt', 'froyo', '#ScottMorrison', '#COVID19', '#bushfire', '#jobseekers', '#kangarooisland', '#naturalHazard', '#Recruiting', '#Staffing', '#Hiring', '#jobsearch']
+KEYWORD_LIST = ['beer', 'boba tea', 'tea', 'whiskey', 'tequila', 'juice', 'milk', 'bubble tea', '#thai food', \
+'korean food', 'sushi', 'hamburgers', 'burgers', 'hotpot', '#Chinese food', 'dumplings', 'noodles', 'soup', \
+'fries', 'steak', 'ice cream', '#cheese', 'youghurt', 'froyo', '#ScottMorrison', '#COVID19', '#bushfire', \
+'#jobseekers', '#kangarooisland', '#naturalHazard', '#Recruiting', '#Staffing', '#Hiring', '#jobsearch',\
+'football', 'swimming', 'soccer', 'dance', 'dancing', 'basketball', 'AFL', 'tennis', 'cricket', 'NRL', 'cycling',\
+'netball']
 
 # json files
 JSON_PATH = "json_files/"
@@ -72,7 +77,7 @@ def twitter_user_timeline(api, db_name):
 
         try:
             for item in api.request("statuses/user_timeline", {"user_id": uid, "count": 200}):
-                if ("text" in item) and (item['lang'] == 'en') and (item['place'] != None):
+                if (item['text'] is not None) and (item['lang'] == 'en') and (item['place'] is not None):
 
                     # save tweet to database
                     store.save_tweet(db_name, item)
@@ -92,7 +97,7 @@ def twitter_keyword_search(api, db_name, kw_region):
                                                 "count": 100,
                                                 "lang": "en", 
                                                 "geocode": kw_region}):
-                if ("text" in item) and (item['place'] != None):
+                if (item['text'] is not None) and (item['place'] is not None):
                     #print('SEARCH: %s -- %s\n' % (item['user']['screen_name'], item['text']))
                     # save tweet to database
                     store.save_tweet(db_name, item)
@@ -114,7 +119,7 @@ def twitter_streaming(api, db_name, bounding, region):
     while True:
         try:
             for item in api.request("statuses/filter", {"locations": bounding[region]}):
-                if ("text" in item) and (item['place'] != None):
+                if (item['text'] is not None) and (item['place'] is not None):
                     # print('STREAM: %s -- %s\n' % (item['user']['screen_name'], item['text']))
 
                     # save tweet to database
