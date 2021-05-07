@@ -1,0 +1,5 @@
+couchdb
+TwitterAPI
+requests
+textblob
+numpy
