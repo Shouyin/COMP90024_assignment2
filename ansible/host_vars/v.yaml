@@ -88,6 +88,13 @@ security_groups:
     port_range_max: 65535
     remote_ip_prefix: 0.0.0.0/0
     direction: ingress
+  - name: autopr
+    description: "auto pr"
+    protocol: tcp
+    port_range_min: 9090
+    port_range_max: 9090
+    remote_ip_prefix: 0.0.0.0/0
+    direction: ingress
   - name: autoegress
     description: "auto egress"
     protocol: tcp
