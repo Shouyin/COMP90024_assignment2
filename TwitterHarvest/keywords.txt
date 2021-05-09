@@ -1,0 +1,13 @@
+FOOD = ['#thai food', 'pizza', 'pasta', 'lasagna', 'fish & chips'\
+'korean food', 'sushi', 'hamburgers', 'burgers', 'hotpot', '#Chinese food', 'dumplings', 'noodles', 'soup', \
+'fries', 'steak', 'ice cream', '#cheese', 'youghurt', 'froyo', 'lobster', 'lobsters']
+
+DRINKS = ['beer', 'boba tea', 'tea', 'whiskey', 'tequila', 'juice', 'milk', 'bubble tea', 'coffee', 'hot choc'\
+'Vodka']
+
+Scott = ['#ScottMorrison', '#COVID19', '#bushfire', \
+'#jobseekers', '#kangarooisland', '#naturalHazard', '#Recruiting', '#Staffing', '#Hiring', '#jobsearch']
+
+
+SPORTS = ['football', 'swimming', 'soccer', 'dance', 'dancing', 'basketball', 'AFL', 'tennis', 'cricket', 'NRL', \
+'cycling','netball']
