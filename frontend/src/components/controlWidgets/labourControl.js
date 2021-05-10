@@ -65,7 +65,7 @@ let LabourControl = (props) => {
   // when the radio group changes, new components should be added to the right side
   // addComp(key, comp)
   const handleChange = (event) => {
-    const key = "unique-id";
+    const key = "labour";
     addComp(key, <div key={key}>
       <DisplayMap
         width={"300px"}
