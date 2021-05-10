@@ -5,24 +5,21 @@ import geojsonAU from "../shapes/geojsonAU.json";
 import geojsonAULess from "../shapes/geojsonAUless.json";
 import geojsonLGAvc from "../shapes/geojsonLGAvc.json";
 
+
+
 let DetailStream = (props) => {
+
+  const comp = props.comp;
+  let displayComp = [];
+
+  for (let i of Object.keys(comp)) {
+    displayComp.push(comp[i]);
+    // console.log(comp[i]);
+  }
   
   return <Paper elevation={3} style={{ padding: "32px", backgroundColor: "white", zIndex: 1, position: "fixed", right: "0px", top: "0px", height: "95vh", width: "25vw", overflow: "scroll" }}>
     <h1>Melbourne</h1>
-    <DisplayMap
-      width={"300px"}
-      height={"200px"}
-      viewport={defaultViewport} // initial viewport
-      geojsonData={geojsonAULess}
-    />
-    <p>edilfas iukerghf iuazse gifhszaiue</p>
-    <DisplayMap
-      width={"300px"}
-      height={"300px"}
-      viewport={defaultViewport} // initial viewport
-      geojsonData={geojsonAULess}
-    />
-    <p>edilfas iukerghf iuazse gifhszaiue</p>
+    {displayComp}
   </Paper>;
 }
 

@@ -23,14 +23,15 @@ let getControlWrapper = (insideControl, title) => {
   </Accordion>
 }
 
-let getControls = (scenario, setGeoJsonData) => {
+// get all controls, on the left side of the home page
+let getControls = (scenario, setGeoJsonData, addComp, delComp) => {
 
   return <div style={{ position: "fixed", left: "32px", top: "128px", zIndex: 1, width: "20vw", minWidth: "280px" }}>
     <Paper elevation={2} style={{margin: "0px 0px 16px 0px"}}>
       <Typography variant="h6" component="h6" style={{padding: "16px 16px"}}>CONTROLS</Typography>
     </Paper>
     <div style={{ maxHeight: "calc(100vh - 240px)", padding: "2px", overflowY: "scroll", overflowX: "visible" }}>
-      {getControlWrapper(<LabourControl setGeoJsonData={setGeoJsonData} />, "Labour")}
+      {getControlWrapper(<LabourControl setGeoJsonData={setGeoJsonData} addComp={addComp} delComp={delComp} />, "Labour")}
     </div>
   </div>
 }

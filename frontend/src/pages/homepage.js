@@ -32,18 +32,33 @@ const scenario2 = 3;
 let HomePage = () => {
 
   const [value, setValue] = useState(1);
-  const [geojsonData, setGeoJsonData] = useState(geojsonAULess)
+  const [geojsonData, setGeoJsonData] = useState(geojsonAULess);
+  const [detailStreamComps, setDetailStreamComps] = useState({});
   const handleChange = (e, newv) => {
     // value == 2: scenario 1
     // value == 3: scenario 2
-    if (newv == scenario1) {
+    /*if (newv == scenario1) {
       setGeoJsonData(geojsonLGAvc);
     } else if (newv == scenario2) {
       setGeoJsonData(geojsonAU);
     } else {
       setGeoJsonData(geojsonAULess);
     }
-    setValue(newv);
+    setValue(newv);*/
+  }
+
+  // 用这个往右边添加可视化， 需要一个key作为唯一id
+  const addComp = (key, comp) => {
+    let tmp = Object.assign({key: comp}, detailStreamComps);
+    // detailStreamComps[key] = comp;
+    // console.log(detailStreamComps);
+    setDetailStreamComps(tmp);
+  }
+
+  // 用这个删除
+  const delComp = (key) => {
+    delete detailStreamComps[key];
+    setDetailStreamComps(Object.assign({}, detailStreamComps));
   }
   
   return (
@@ -63,9 +78,9 @@ let HomePage = () => {
           </Tabs>
         </Paper>
       </header>
-      {getControls("", setGeoJsonData)}
+      {getControls("", setGeoJsonData, addComp, delComp)}
       {getMap("", "", geojsonData, defaultViewport)}
-      <DetailStream />
+      <DetailStream comp={detailStreamComps} />
     </div>
   );
 };
