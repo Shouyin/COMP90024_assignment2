@@ -81,6 +81,7 @@ let HomePage = () => {
       {getControls("", setGeoJsonData, addComp, delComp)}
       {getMap("", "", geojsonData, defaultViewport)}
       <DetailStream comp={detailStreamComps} />
+
     </div>
   );
 };

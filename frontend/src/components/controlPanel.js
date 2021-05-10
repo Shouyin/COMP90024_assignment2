@@ -4,6 +4,7 @@ import { Add as AddIcon, ExpandMore as ExpandMoreIcon } from '@material-ui/icons
 
 
 import LabourControl from "./controlWidgets/labourControl.js";
+import MedicareControl from "./controlWidgets/medicareControl.js";
 
 
 let ControlWrapper = (insideControl, title) => {
@@ -30,6 +31,11 @@ let getControls = (scenario, setGeoJsonData, addComp, delComp) => {
     <div style={{ maxHeight: "calc(100vh - 240px)", padding: "2px", overflowY: "scroll", overflowX: "visible" }}>
       {ControlWrapper(<LabourControl setGeoJsonData={setGeoJsonData} addComp={addComp} delComp={delComp} />, "Labour")}
     </div>
+
+    <div style={{ maxHeight: "calc(100vh - 240px)", padding: "2px", overflowY: "scroll", overflowX: "visible" }}>
+      {ControlWrapper(<MedicareControl setGeoJsonData={setGeoJsonData} addComp={addComp} delComp={delComp} />, "Medicare")}
+    </div>
+    
   </div>
 }
 
