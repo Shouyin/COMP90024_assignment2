@@ -1,0 +1,6 @@
+- name: op
+  set_fact:
+    hi: "hello"
+
+- name: test
+  debug: var=hi

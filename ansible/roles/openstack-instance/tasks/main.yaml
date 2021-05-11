@@ -28,6 +28,12 @@
   loop: "{{ os_instance.results }}"
   when: item.openstack is defined
 
+- name: add host to ips
+  set_fact:
+    ips: '{{ sg_names|default([]) + [ item.openstack.public_v4 ] }}'
+  loop: "{{ os_instance.results }}"
+  when: item.openstack is defined
+
 - name: Wait for connection
   wait_for:
     host: "{{ item.openstack.public_v4 }}"

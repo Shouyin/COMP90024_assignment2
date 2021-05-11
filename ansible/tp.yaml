@@ -1,0 +1,13 @@
+- hosts: localhost
+  remote_user: ubuntu
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  gather_facts: true
+  roles:
+    - role: testrole
+  tasks:
+    - set_fact:
+        ips: "{{[1, 2, 3, 4]}}"
+    - template:
+        src: local_scripts/ips.sh
+        dest: local_scripts/../../ips.sh
