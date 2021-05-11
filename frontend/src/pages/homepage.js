@@ -8,7 +8,7 @@ import { headerStyle } from "./styles/homepageStyle";
 
 import getControls from "../components/controlPanel.js";
 
-import { defaultViewport } from "../consts/consts.js";
+import { defaultViewport, cityLevel } from "../consts/consts.js";
 
 import { Fab, Paper, Tabs, Tab, Accordion, AccordionSummary, Typography, AccordionDetails, Button } from '@material-ui/core';
 import { Add as AddIcon, ExpandMore as ExpandMoreIcon } from '@material-ui/icons';
@@ -34,6 +34,9 @@ let HomePage = () => {
   const [value, setValue] = useState(1);
   const [geojsonData, setGeoJsonData] = useState(geojsonAULess);
   const [detailStreamComps, setDetailStreamComps] = useState({});
+
+  const [lv, setLv] = useState("");
+
   const handleChange = (e, newv) => {
     // value == 2: scenario 1
     // value == 3: scenario 2
@@ -78,7 +81,7 @@ let HomePage = () => {
           </Tabs>
         </Paper>
       </header>
-      {getControls("", setGeoJsonData, addComp, delComp)}
+      {getControls("", setGeoJsonData, addComp, delComp, lv)}
       {getMap("", "", geojsonData, defaultViewport)}
       <DetailStream comp={detailStreamComps} />
 

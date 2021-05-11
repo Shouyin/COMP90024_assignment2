@@ -4,4 +4,6 @@ const defaultViewport = {
   zoom: 3,
 };
 
-export { defaultViewport };
+const cityLevel = "";
+
+export { defaultViewport, cityLevel };
