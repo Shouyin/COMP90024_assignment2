@@ -51,6 +51,7 @@ let init = () => {
 
 init();
 
+
 export default function MedicareControl(props) {
 
   const setGeoJsonData = props.setGeoJsonData;
@@ -59,9 +60,7 @@ export default function MedicareControl(props) {
 
   const key = "medicare";
 
-  const [state, setState] = React.useState({
-    checkedA: true,
-  });
+  const [state, setState] = React.useState();
 
   const handleChange = (event) => {
       setState({ ...state, [event.target.name]: event.target.checked });
@@ -79,21 +78,19 @@ export default function MedicareControl(props) {
       );
   };
 
+
+  let Radios = () => {
+    let children = [];
+    for (let i of RadioButtonList) {
+      // console.log(attributes, i);
+      children.push(<FormControlLabel control={<Checkbox onChange={handleChange} name={attributes[trim(i)]}/>} label={attributes[trim(i)]} />)
+    }
+    return children;
+  }
+
   return (
     <FormGroup>
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={state.checkedA}
-            onChange={handleChange}
-            name="checkedA"
-          />
-        }
-        label="Secondary"
-      />
-    <FormControlLabel control={<Checkbox name="checkedB" />} label="Uncontrolled" />
-    <FormControlLabel control={<Checkbox name="checkedC" />} label="Uncontrolled" />
-    <FormControlLabel control={<Checkbox name="checkedD" />} label="Uncontrolled" />
+      {Radios()}
     </FormGroup>
   );
 }

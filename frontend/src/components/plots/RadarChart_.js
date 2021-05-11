@@ -22,7 +22,7 @@ export default function RadarChart_(props){
       outerRadius={150}
       width={500}
       height={500}
-      data={props.data}
+      data={data}
     >
       <PolarGrid />
       <PolarAngleAxis dataKey="subject" />
@@ -31,7 +31,7 @@ export default function RadarChart_(props){
         dataKey = "A"
         stroke="#0E7C7B"
         fill="#0E7C7B"
-        fillOpacity={0.8}
+        fillOpacity={0.6}
       />
     </RadarChart>
   );
