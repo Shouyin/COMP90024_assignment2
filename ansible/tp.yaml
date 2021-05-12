@@ -1,13 +1,28 @@
+# - hosts: localhost
+#   remote_user: ubuntu
+#   vars:
+#     ansible_python_interpreter: python3
+#   gather_facts: true
+#   roles:
+#     - role: testrole
+#   tasks:
+#     - set_fact:
+#         ips: "{{[1, 2, 3, 4]}}"
+#     - template:
+#         src: local_scripts/ips.sh
+#         dest: local_scripts/../../ips.sh
+
 - hosts: localhost
-  remote_user: ubuntu
   vars:
-    ansible_python_interpreter: /usr/bin/python3
+    ansible_python_interpreter: python3
   gather_facts: true
-  roles:
-    - role: testrole
   tasks:
     - set_fact:
-        ips: "{{[1, 2, 3, 4]}}"
-    - template:
-        src: local_scripts/ips.sh
-        dest: local_scripts/../../ips.sh
+        ips: ["172.26.129.77", "172.26.130.32", "172.26.133.93", "172.26.129.7"]
+    - openstack.cloud.recordset:
+        state: present
+        zone: unimelb-comp90024-2021-grp-6.cloud.edu.au.
+        name: www.unimelb-comp90024-2021-grp-6.cloud.edu.au.
+        recordset_type: "a"
+        records: "{{ ips }}"
+        ttl: 3600
