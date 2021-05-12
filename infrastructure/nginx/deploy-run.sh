@@ -1,12 +1,16 @@
-scp nginx.conf ubuntu@172.26.129.77:
+source ../../ips.sh
 
-ssh ubuntu@172.26.129.77 "sudo docker config create nginx3 nginx.conf"
+DOCKERCONFIGNAME=nginx2
 
-ssh ubuntu@172.26.129.77 "sudo docker service create \
+scp nginx.conf ubuntu@$N1:
+
+ssh ubuntu@$N1 "sudo docker config create $DOCKERCONFIGNAME nginx.conf"
+
+ssh ubuntu@$N1 "sudo docker service create \
     --replicas 2 \
     --replicas-max-per-node 1 \
     --name nginx \
-    --config source=nginx3,target=/etc/nginx/nginx.conf \
+    --config source=$DOCKERCONFIGNAME,target=/etc/nginx/nginx.conf \
     --network couchdbnetwork \
     --publish published=80,target=80 \
     --mount type=bind,src=/data/nginx,dst=/usr/share/nginx/html \
