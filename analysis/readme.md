@@ -93,7 +93,7 @@ Scenario
 3. 19年选举支持率和twitter对scomo态度联合
 
    - 19年选举支持率只需要aurin数据，结果已保存在**anaysis/aurin_data/results/election_result.json**，记录了每个城市对liberal party的支持率（key：" liberal_percent"）和swing（相比上次选举的变化）（key：" liberal_swing"）；Brisbane没有数据。。。
-   - twitter对scomo的态度需要：按关键词（e.g. #ScottMorrison）筛选，按城市计算sentiment分数（或者按城市计算sentiment为正/负的twitter个数比例）
+   - twitter对scomo的态度需要：按**关键词**（e.g. #ScottMorrison）筛选，按城市计算sentiment分数（或者按城市计算sentiment为正/负的twitter个数比例）
    - 柱状图或者折线图（看几个城市的走势）？
 
 4.  jobseeker（待定？）
@@ -105,7 +105,7 @@ Scenario
 
 5.  食物
 
-   - 靠关键词筛选twitter，按城市统计数量
+   - 靠**关键词**筛选twitter，按城市统计数量
    - 饼状图？
 
 
