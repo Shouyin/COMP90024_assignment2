@@ -12,6 +12,10 @@
     - role: openstack-security-group
     - role: openstack-instance
     # - role: openstack-volume-snapshot
+  tasks:
+    - template:
+        src: local_scripts/ips.sh
+        dest: local_scripts/../../ips.sh
   
 - hosts: servers
   remote_user: ubuntu
