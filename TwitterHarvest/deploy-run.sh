@@ -9,6 +9,9 @@ if [[ -z "${TH_CITYNAME}" ]]; then
 fi
 
 
+source ../ips.sh
+
+
 # if [[ -z "${TH_KWCITYNAME}" ]]; then
 #   echo "no CITYNAME (-kwreg) specified"
 #   exit 1
@@ -23,4 +26,4 @@ RUNSERVICE="sudo docker service create \
     th
 "
 
-ssh ubuntu@172.26.129.77 $RUNSERVICE
+ssh ubuntu@$N1 $RUNSERVICE

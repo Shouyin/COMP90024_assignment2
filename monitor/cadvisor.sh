@@ -1,3 +1,5 @@
+source ../ips.sh
+
 CAD="sudo docker service create \
     --mode global --name cadv --network couchdbnetwork \
     --mount type=bind,src=/,dst=/rootfs,ro=true \
@@ -8,4 +10,4 @@ CAD="sudo docker service create \
     gcr.io/cadvisor/cadvisor:latest
 "
 
-ssh ubuntu@172.26.129.77 $CAD
+ssh ubuntu@$N1 $CAD
