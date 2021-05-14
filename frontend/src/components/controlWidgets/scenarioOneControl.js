@@ -20,6 +20,16 @@ import { initLabour, initMedicare, initTourism } from "../../aurin_data/p.js";
 import { getCityLocMap } from "../../aurin_data/map.js";
 
 
+import employ_reduce from "../../aurin_data/reduced_data/employ_reduce.json";
+import medicare_reduce from "../../aurin_data/reduced_data/medicare_reduce.json";
+import tourism_reduce from "../../aurin_data/reduced_data/tourism_reduce.json";
+
+
+import PieChart_ from "../plots/PieChart_.js";
+import BarChart_ from "../plots/BarChart_.js";
+import LineChart_ from "../plots/LineChart_.js";
+import WordCloud_ from "../plots/WordCloud_.js";
+
 const Disabled = "disable";
 
 
@@ -56,8 +66,34 @@ let MedicareDetailed = (props) => {
 
 let TourismDetailed = (props) => {
   const location = props.location;
+
+  let TourismDetailed = (props) => {
+    const location = props.location;
+  
+    // - Bar
+    let Keyname = Object.keys(tourism_reduce);
+    let keyList = Object.keys(tourism_reduce[0]);
+    
+    const data_1 = [];
+    
+    for (const city of Object.keys(tourism_reduce)) {
+      const tmp = {"Cities":city}
+      for (const value of Object.keys(tourism_reduce[city]) ){
+        tmp[value] = tourism_reduce[city][value];
+      }
+      data_1.push(tmp);
+    }
+  
+    return (
+    <div style={{width:"300px",height:"500px"}}>
+        <BarChart_ data = {data_1} keyName={Keyname} keyList={keyList} brush_flag= {false} height = {300} width = {500}></BarChart_>
+    </div>
+    )
+  }
+
+
   return <div>
-    3
+
   </div>
 }
 
