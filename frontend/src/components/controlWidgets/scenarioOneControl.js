@@ -75,7 +75,7 @@ let Detailed = (props) => {
   return <div>
       {state[LABOUR_DATA] ? <LabourDetailed location={location} /> : null}
       {state[MEDICARE_DATA] ? <MedicareDetailed location={location} /> : null}
-      {state[TOURISM_DATA] ? <MedicareDetailed location={location} /> : null}
+      {state[TOURISM_DATA] ? <TourismDetailed location={location} /> : null}
   </div>
 }
 
