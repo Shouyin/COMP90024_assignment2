@@ -10,8 +10,19 @@ import regionsa3 from "../../aurin_data/regions/sa3.json";
 import regionsa4 from "../../aurin_data/regions/sa4.json";
 import regionlga from "../../aurin_data/regions/lga2018.json";
 
+
+import DisplayMap from "../displayMap.js";
+import { defaultViewport } from "../../consts/consts.js";
+import geojsonAULess from "../../shapes/geojsonAUless.json";
+
+
 import { initLabour, initMedicare, initTourism } from "../../aurin_data/p.js";
 import { getCityLocMap } from "../../aurin_data/map.js";
+
+
+const Disabled = "disable";
+let RadioButtonList = [Disabled]; // all column keys
+let attributes = { [Disabled]: Disabled }; // map of column and their human friendly names
 
 // str.strip
 let trim = (name) => {
@@ -29,7 +40,7 @@ let init = () => {
 
 init();
 
-export default function scenarioOneControl(props) {
+export default function ScenarioOneControl(props) {
   const setGeoJsonData = props.setGeoJsonData;
   const addComp = props.addComp;
   const delComp = props.delComp;

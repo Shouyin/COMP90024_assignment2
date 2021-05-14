@@ -14,6 +14,10 @@ import { Fab, Paper, Tabs, Tab, Accordion, AccordionSummary, Typography, Accordi
 import { Add as AddIcon, ExpandMore as ExpandMoreIcon } from '@material-ui/icons';
 
 
+import PieChart_ from "../components/plots/PieChart_.js"
+import BarChart_ from "../components/plots/BarChart_.js"
+import LineChart_ from "../components/plots/LineChart_.js"
+import WordCloud_ from "../components/plots/WordCloud_.js"
 // mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
 // mapType: different types of map
@@ -64,6 +68,7 @@ let HomePage = () => {
     setDetailStreamComps(Object.assign({}, detailStreamComps));
   }
   
+
   return (
     <div>
       <header style={headerStyle}>
@@ -84,8 +89,7 @@ let HomePage = () => {
       {getControls("", setGeoJsonData, addComp, delComp, lv)}
       {getMap("", "", geojsonData, defaultViewport)}
       <DetailStream comp={detailStreamComps} />
-
-    </div>
+    </div>  
   );
 };
 

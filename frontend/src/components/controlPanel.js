@@ -6,7 +6,7 @@ import { Add as AddIcon, ExpandMore as ExpandMoreIcon } from '@material-ui/icons
 import LabourControl from "./controlWidgets/labourControl.js";
 import MedicareControl from "./controlWidgets/medicareControl.js";
 import LocationControl from "./controlWidgets/locationControl.js";
-import SenarioOneControl from "./controlWidgets/scenarioOneControl.js";
+import ScenarioOneControl from "./controlWidgets/scenarioOneControl.js";
 
 
 let ControlWrapper = (insideControl, title) => {
