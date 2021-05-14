@@ -4,7 +4,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 
-import React from "react";
+import React, { useEffect } from "react";
 
 import regionsa3 from "../../aurin_data/regions/sa3.json";
 import regionsa4 from "../../aurin_data/regions/sa4.json";
@@ -63,6 +63,16 @@ export default function ScenarioTwoControl(props) {
   let inst = {onlySwitch: false};
 
   const [state, setState] = React.useState(inst);
+
+  useEffect(
+    () => {
+      state[onlySwitch] ?
+        addComp(
+          key, <Detailed state={state} location={location} />
+        ) : delComp(key);
+    },
+    [props.location],
+  );
 
 
   const handleChange = (event) => {

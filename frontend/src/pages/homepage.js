@@ -32,6 +32,7 @@ let getMap = (data, mapType, geojson, viewport) => {
 const scenario1 = 2;
 const scenario2 = 3;
 
+
 let HomePage = () => {
 
   const [value, setValue] = useState(1);
@@ -63,7 +64,7 @@ let HomePage = () => {
 
   // 用这个删除
   const delComp = (key) => {
-    console.log("key"+key);
+    // console.log("key"+key);
     delete detailStreamComps[key];
     // console.log(detailStreamComps);
     let tmp = { ... detailStreamComps}

@@ -4,7 +4,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 
-import React from "react";
+import React, { useEffect } from "react";
 
 import regionsa3 from "../../aurin_data/regions/sa3.json";
 import regionsa4 from "../../aurin_data/regions/sa4.json";
@@ -29,6 +29,8 @@ import PieChart_ from "../plots/PieChart_.js";
 import BarChart_ from "../plots/BarChart_.js";
 import LineChart_ from "../plots/LineChart_.js";
 import WordCloud_ from "../plots/WordCloud_.js";
+
+import { cities } from "../../consts/consts.js";
 
 const Disabled = "disable";
 
@@ -66,35 +68,34 @@ let MedicareDetailed = (props) => {
 
 let TourismDetailed = (props) => {
   const location = props.location;
+  console.log(location);
 
-  let TourismDetailed = (props) => {
-    const location = props.location;
+  // - Bar
+  let Keyname = Object.keys(tourism_reduce);
+  let keyList = Object.keys(tourism_reduce[cities[0]]);
   
-    // - Bar
-    let Keyname = Object.keys(tourism_reduce);
-    let keyList = Object.keys(tourism_reduce[0]);
-    
-    const data_1 = [];
-    
-    for (const city of Object.keys(tourism_reduce)) {
-      const tmp = {"Cities":city}
-      for (const value of Object.keys(tourism_reduce[city]) ){
-        tmp[value] = tourism_reduce[city][value];
-      }
-      data_1.push(tmp);
+  const data_1 = [];
+  
+  // for (const city of Object.keys(tourism_reduce)) {
+  for (const city of location) {
+    const tmp = {"Cities":city}
+    for (const value of Object.keys(tourism_reduce[city]) ){
+      tmp[value] = tourism_reduce[city][value];
     }
-  
-    return (
-    <div style={{width:"300px",height:"500px"}}>
-        <BarChart_ data = {data_1} keyName={Keyname} keyList={keyList} brush_flag= {false} height = {300} width = {500}></BarChart_>
-    </div>
-    )
+    data_1.push(tmp);
   }
 
-
-  return <div>
-
+  return (
+  <div>
+      <BarChart_ data={data_1} keyName={Keyname} keyList={keyList} brush_flag={false} height={300} width={500}></BarChart_>
+      <DisplayMap
+        width={"300px"}
+        height={"200px"}
+        viewport={defaultViewport} // initial viewport
+        geojsonData={geojsonAULess}
+      />
   </div>
+  )
 }
 
 
@@ -103,6 +104,7 @@ let Detailed = (props) => {
   const state = props.state;
 
   return <div>
+    <h2>Scenario 1</h2>
       {state[LABOUR_DATA] ? <LabourDetailed location={location} /> : null}
       {state[MEDICARE_DATA] ? <MedicareDetailed location={location} /> : null}
       {state[TOURISM_DATA] ? <TourismDetailed location={location} /> : null}
@@ -130,11 +132,30 @@ export default function ScenarioOneControl(props) {
 
   const names = []
 
+  const shouldClose = (state) => {
+    for (let i of Object.keys(state)) {
+      if (state[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  useEffect(
+    () => {
+      shouldClose(state) ? delComp(key) :
+      addComp(
+        key, <Detailed state={state} location={location} />
+      );
+    },
+    [props.location],
+  );
+
   const handleChange = (event) => {
     let newState = { ...state, [event.target.name]: event.target.checked };
     setState(newState);
 
-    addComp(
+    shouldClose(newState) ? delComp(key) :addComp(
       key, <Detailed state={newState} location={location} />
     );
   };
