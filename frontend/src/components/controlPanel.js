@@ -7,6 +7,9 @@ import LabourControl from "./controlWidgets/labourControl.js";
 import MedicareControl from "./controlWidgets/medicareControl.js";
 import LocationControl from "./controlWidgets/locationControl.js";
 import ScenarioOneControl from "./controlWidgets/scenarioOneControl.js";
+import ScenarioTwoControl from "./controlWidgets/scenarioTwoControl.js";
+import ScenarioThreeControl from "./controlWidgets/scenarioThreeControl.js";
+import ScenarioFourControl from "./controlWidgets/scenarioFourControl.js";
 
 
 let ControlWrapper = (insideControl, title) => {
@@ -45,8 +48,10 @@ let Controls = (props) => {
     </Paper>
     <div style={{ maxHeight: "calc(100vh - 240px)", padding: "2px", overflowY: "scroll", overflowX: "visible" }}>
       {ControlWrapper(<LocationControl setLocation={setLocation} lv={lv} />, "Location")}
-      {ControlWrapper(<ScenarioOneControl setGeoJsonData={setGeoJsonData} addComp={addComp} delComp={delComp} lv={lv} location={location}/>, "Labour")}
-      
+      {ControlWrapper(<ScenarioOneControl setGeoJsonData={setGeoJsonData} addComp={addComp} delComp={delComp} lv={lv} location={location}/>, "Scenario 1: Best city")}
+      {ControlWrapper(<ScenarioTwoControl setGeoJsonData={setGeoJsonData} addComp={addComp} delComp={delComp} lv={lv} location={location} />, "Scenario 2: Word frequency")}
+      {ControlWrapper(<ScenarioThreeControl setGeoJsonData={setGeoJsonData} addComp={addComp} delComp={delComp} lv={lv} location={location}/>, "Scenario 3: Scomo")}
+      {ControlWrapper(<ScenarioFourControl setGeoJsonData={setGeoJsonData} addComp={addComp} delComp={delComp} lv={lv} location={location}/>, "Scenario 4: Foods")}
     </div>
     
   </div>

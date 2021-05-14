@@ -55,7 +55,7 @@ let HomePage = () => {
 
   // 用这个往右边添加可视化， 需要一个key作为唯一id
   const addComp = (key, comp) => {
-    let tmp = Object.assign({key: comp}, detailStreamComps);
+    let tmp = { ... detailStreamComps, [key]: comp};
     // detailStreamComps[key] = comp;
     // console.log(detailStreamComps);
     setDetailStreamComps(tmp);
@@ -63,8 +63,11 @@ let HomePage = () => {
 
   // 用这个删除
   const delComp = (key) => {
+    console.log("key"+key);
     delete detailStreamComps[key];
-    setDetailStreamComps(Object.assign({}, detailStreamComps));
+    // console.log(detailStreamComps);
+    let tmp = { ... detailStreamComps}
+    setDetailStreamComps(tmp);
   }
   
 
