@@ -33,9 +33,9 @@ let trim = (name) => {
 let init = () => {
   let [citySA3map, citySA4map, cityLGAmap] = getCityLocMap();
 
-  let labour = initLabour(citySA4map);
+  /*let labour = initLabour(citySA4map);
   let medicare = initMedicare(citySA3map);
-  let tourism = initTourism(cityLGAmap);
+  let tourism = initTourism(cityLGAmap);*/
 };
 
 init();
