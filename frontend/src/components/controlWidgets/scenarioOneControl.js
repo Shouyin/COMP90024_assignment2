@@ -40,32 +40,79 @@ let init = () => {
 
 init();
 
+
+const LABOUR_DATA = "labour";
+const MEDICARE_DATA = "medicare";
+const TOURISM_DATA = "tourism";
+
+let LabourDetailed = (props) => {
+  const location = props.location;
+
+  return <div>
+
+  </div>
+}
+
+let MedicareDetailed = (props) => {
+  const location = props.location;
+  return <div>
+    
+  </div>
+}
+
+let TourismDetailed = (props) => {
+  const location = props.location;
+  return <div>
+    
+  </div>
+  
+}
+
+
+let Detailed = (props) => {
+  const location = props.location;
+  const state = props.state;
+
+  return <div>
+      {state[LABOUR_DATA] ? <LabourDetailed location={location} /> : null}
+      {state[MEDICARE_DATA] ? <MedicareDetailed location={location} /> : null}
+      {state[TOURISM_DATA] ? <MedicareDetailed location={location} /> : null}
+  </div>
+}
+
+
 export default function ScenarioOneControl(props) {
   const setGeoJsonData = props.setGeoJsonData;
   const addComp = props.addComp;
   const delComp = props.delComp;
+  const location = props.location;
 
   const key = "scenarioone";
 
-  const [state, setState] = React.useState();
+  const RadioButtonList = [LABOUR_DATA, MEDICARE_DATA, TOURISM_DATA];
+  const cities = ["Australian Capital Territory",
+      "Greater Brisbane",
+      "Greater Melbourne",
+      "Greater Sydney"]
+
+  let inst = {};
+  for (let i of RadioButtonList) {
+    inst[i] = false;
+  }
+
+  const [state, setState] = React.useState(inst);
 
   const names = []
 
   const handleChange = (event) => {
-      setState({ ...state, [event.target.name]: event.target.checked });
+    let newState = { ...state, [event.target.name]: event.target.checked };
+    setState(newState);
 
-      addComp(
-        key,
-        <div key={key}>
-          <DisplayMap
-            width={"300px"}
-            height={"200px"}
-            viewport={defaultViewport} // initial viewport
-            geojsonData={geojsonAULess}
-          />
-        </div>
-      );
+    addComp(
+      key, <Detailed state={newState} location={location} />
+    );
   };
+
 
   let Radios = () => {
     let children = [];
@@ -74,9 +121,9 @@ export default function ScenarioOneControl(props) {
       children.push(
         <FormControlLabel
           control={
-            <Checkbox onChange={handleChange} name={attributes[trim(i)]} />
+            <Checkbox onChange={handleChange} name={i} />
           }
-          label={attributes[trim(i)]}
+          label={i}
         />
       );
     }

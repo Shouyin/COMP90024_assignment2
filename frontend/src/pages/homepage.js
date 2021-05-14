@@ -18,7 +18,6 @@ import PieChart_ from "../components/plots/PieChart_.js"
 import BarChart_ from "../components/plots/BarChart_.js"
 import LineChart_ from "../components/plots/LineChart_.js"
 import WordCloud_ from "../components/plots/WordCloud_.js"
-// mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
 // mapType: different types of map
 let getMap = (data, mapType, geojson, viewport) => {

@@ -44,12 +44,15 @@ let Controls = (props) => {
       <Typography variant="h6" component="h6" style={{padding: "16px 16px"}}>CONTROLS</Typography>
     </Paper>
     <div style={{ maxHeight: "calc(100vh - 240px)", padding: "2px", overflowY: "scroll", overflowX: "visible" }}>
-      {ControlWrapper(<LocationControl setLocation={setLocation} lv={lv}/>, "Location")}
-      {ControlWrapper(<LabourControl setGeoJsonData={setGeoJsonData} addComp={addComp} delComp={delComp} lv={lv} location={location}/>, "Labour")}
-      {ControlWrapper(<MedicareControl setGeoJsonData={setGeoJsonData} addComp={addComp} delComp={delComp} lv={lv} location={location}/>, "Medicare")}
+      {ControlWrapper(<LocationControl setLocation={setLocation} lv={lv} />, "Location")}
+      {ControlWrapper(<ScenarioOneControl setGeoJsonData={setGeoJsonData} addComp={addComp} delComp={delComp} lv={lv} location={location}/>, "Labour")}
+      
     </div>
     
   </div>
 }
+
+/*{ControlWrapper(<LabourControl setGeoJsonData={setGeoJsonData} addComp={addComp} delComp={delComp} lv={lv} location={location}/>, "Labour")}
+      {ControlWrapper(<MedicareControl setGeoJsonData={setGeoJsonData} addComp={addComp} delComp={delComp} lv={lv} location={location}/>, "Medicare")} */
 
 export default getControls;
