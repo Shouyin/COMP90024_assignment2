@@ -9,7 +9,7 @@ import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import { FormLabel } from "@material-ui/core";
 import React from "react";
 
-import { defaultViewport, cityLevel } from "../../consts/consts.js";
+import { defaultViewport, cityLevel, cities } from "../../consts/consts.js";
 
 
 
@@ -48,7 +48,7 @@ let init = () => {
 init();*/
 
 let lvLocationMap = {
-  [cityLevel]: ["Melbourne", "Brisbane", "Sydney", "Canberra"],
+  [cityLevel]: cities,
 }
 
 

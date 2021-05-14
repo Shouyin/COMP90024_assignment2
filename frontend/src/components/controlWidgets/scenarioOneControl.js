@@ -65,7 +65,6 @@ let TourismDetailed = (props) => {
   return <div>
     
   </div>
-  
 }
 
 
@@ -82,6 +81,7 @@ let Detailed = (props) => {
 
 
 export default function ScenarioOneControl(props) {
+  console.log(props.location)
   const setGeoJsonData = props.setGeoJsonData;
   const addComp = props.addComp;
   const delComp = props.delComp;
@@ -90,10 +90,6 @@ export default function ScenarioOneControl(props) {
   const key = "scenarioone";
 
   const RadioButtonList = [LABOUR_DATA, MEDICARE_DATA, TOURISM_DATA];
-  const cities = ["Australian Capital Territory",
-      "Greater Brisbane",
-      "Greater Melbourne",
-      "Greater Sydney"]
 
   let inst = {};
   for (let i of RadioButtonList) {
