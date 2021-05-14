@@ -59,10 +59,10 @@ export default function ScenarioTwoControl(props) {
 
   useEffect(
     () => {
-      state[onlySwitch] ?
-        addComp(
-          key, <Detailed state={state} location={location} />
-        ) : delComp(key);
+      // console.log(key)
+      state[onlySwitch] ? addComp(
+        key, <Detailed state={state} location={props.location} />
+      ) : delComp(key);
     },
     [props.location],
   );

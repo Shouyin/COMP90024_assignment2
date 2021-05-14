@@ -42,7 +42,7 @@ let Controls = (props) => {
 
   const [location, setLocation] = useState(defaultLocation);
 
-  console.log(location);
+  // console.log(location);
 
   return <div style={{ position: "fixed", left: "32px", top: "128px", zIndex: 1, width: "20vw", minWidth: "280px" }}>
     <Paper elevation={2} style={{margin: "0px 0px 16px 0px"}}>

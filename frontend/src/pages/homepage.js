@@ -33,67 +33,118 @@ const scenario1 = 2;
 const scenario2 = 3;
 
 
-let HomePage = () => {
+// let HomePage = () => {
+class HomePage extends React.Component {
 
-  const [value, setValue] = useState(1);
-  const [geojsonData, setGeoJsonData] = useState(geojsonAULess);
-  const [detailStreamComps, setDetailStreamComps] = useState({});
+  constructor() {
+    super();
+  }
 
-  const [lv, setLv] = useState("");
+  state = {
+    "value": 1,
+    "geojsonData": geojsonAULess,
+    "detailStreamComps": {},
+    "lv": ""
+  };
 
-  const handleChange = (e, newv) => {
-    // value == 2: scenario 1
-    // value == 3: scenario 2
-    /*if (newv == scenario1) {
-      setGeoJsonData(geojsonLGAvc);
-    } else if (newv == scenario2) {
-      setGeoJsonData(geojsonAU);
-    } else {
-      setGeoJsonData(geojsonAULess);
+  render() {
+    // this.state["value"] = 1;
+    // this.state["geojsonData"] = geojsonAULess;
+    // this.state["detailStreamComps"] = {};
+    // this.state["lv"] = "";
+
+    let setValue = (newValue) => {
+      this.setState({
+        ... this.state, value: newValue
+      });
     }
-    setValue(newv);*/
-  }
 
-  // 用这个往右边添加可视化， 需要一个key作为唯一id
-  const addComp = (key, comp) => {
-    let tmp = { ... detailStreamComps, [key]: comp};
-    // detailStreamComps[key] = comp;
-    // console.log(detailStreamComps);
-    setDetailStreamComps(tmp);
-  }
+    let setGeoJsonData = (newGeo) => {
+      this.setState({
+        ... this.state, geojsonData: newGeo
+      });
+    }
 
-  // 用这个删除
-  const delComp = (key) => {
-    // console.log("key"+key);
-    delete detailStreamComps[key];
-    // console.log(detailStreamComps);
-    let tmp = { ... detailStreamComps}
-    setDetailStreamComps(tmp);
-  }
-  
+    let setDetailStreamComps = (newDetail) => {
+      console.log("??");
+      console.log(newDetail);
+      this.setState({
+        ... this.state, detailStreamComps: newDetail
+      });
+    }
 
-  return (
-    <div>
-      <header style={headerStyle}>
-        <Paper elevation={3} square>
-          <Tabs
-            value={value}
-            indicatorColor="primary"
-            textColor="primary"
-            onChange={handleChange}
-            aria-label="header"
-          >
-            <Tab label="Assignment 2" disabled />
-            <Tab label="HOME" />
-            <Tab label="MELBOURNE" />
-          </Tabs>
-        </Paper>
-      </header>
-      {getControls("", setGeoJsonData, addComp, delComp, lv)}
-      {getMap("", "", geojsonData, defaultViewport)}
-      <DetailStream comp={detailStreamComps} />
-    </div>  
-  );
+    let setLv = (newLv) => {
+      this.setState({
+        ... this.state, lv: newLv
+      });
+    }
+
+    // const [value, setValue] = useState(1);
+    // const [geojsonData, setGeoJsonData] = useState(geojsonAULess);
+    // const [detailStreamComps, setDetailStreamComps] = useState({});
+
+    // const [lv, setLv] = useState("");
+
+    const handleChange = (e, newv) => {
+      // value == 2: scenario 1
+      // value == 3: scenario 2
+      /*if (newv == scenario1) {
+        setGeoJsonData(geojsonLGAvc);
+      } else if (newv == scenario2) {
+        setGeoJsonData(geojsonAU);
+      } else {
+        setGeoJsonData(geojsonAULess);
+      }
+      setValue(newv);*/
+    }
+
+    // 用这个往右边添加可视化， 需要一个key作为唯一id
+    const addComp = (key, comp) => {
+      let tmp = { ...this.state.detailStreamComps, [key]: comp };
+      // detailStreamComps[key] = comp;
+      // console.log(this.state.detailStreamComps);
+      // console.log(tmp);
+      // setDetailStreamComps(tmp);
+      this.state = {
+        ... this.state, detailStreamComps: tmp
+      }
+      this.setState(this.state);
+    }
+
+    // 用这个删除
+    const delComp = (key) => {
+      // console.log("key"+key);
+      delete this.state.detailStreamComps[key];
+      // console.log(detailStreamComps);
+      let tmp = { ...this.state.detailStreamComps }
+      this.setState(this.state);
+      // setDetailStreamComps(tmp);
+    }
+      
+
+    return (
+      <div>
+        <header style={headerStyle}>
+          <Paper elevation={3} square>
+            <Tabs
+              value={this.state.value}
+              indicatorColor="primary"
+              textColor="primary"
+              onChange={handleChange}
+              aria-label="header"
+            >
+              <Tab label="Assignment 2" disabled />
+              <Tab label="HOME" />
+              <Tab label="MELBOURNE" />
+            </Tabs>
+          </Paper>
+        </header>
+        {getControls("", setGeoJsonData, addComp, delComp, this.state.lv)}
+        {getMap("", "", this.state.geojsonData, defaultViewport)}
+        <DetailStream comp={this.state.detailStreamComps} />
+      </div>
+    );
+  }
 };
 
 /*<Fab color="primary" aria-label="add" style={{ position: "fixed", zIndex:1, bottom: "32px", left: "32px"}}>

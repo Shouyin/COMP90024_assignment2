@@ -88,12 +88,6 @@ let TourismDetailed = (props) => {
   return (
   <div>
       <BarChart_ data={data_1} keyName={Keyname} keyList={keyList} brush_flag={false} height={300} width={500}></BarChart_>
-      <DisplayMap
-        width={"300px"}
-        height={"200px"}
-        viewport={defaultViewport} // initial viewport
-        geojsonData={geojsonAULess}
-      />
   </div>
   )
 }
@@ -113,7 +107,7 @@ let Detailed = (props) => {
 
 
 export default function ScenarioOneControl(props) {
-  console.log(props.location)
+  // console.log(props.location)
   const setGeoJsonData = props.setGeoJsonData;
   const addComp = props.addComp;
   const delComp = props.delComp;
@@ -143,9 +137,10 @@ export default function ScenarioOneControl(props) {
 
   useEffect(
     () => {
+      
       shouldClose(state) ? delComp(key) :
       addComp(
-        key, <Detailed state={state} location={location} />
+        key, <Detailed state={state} location={props.location} />
       );
     },
     [props.location],
