@@ -6,6 +6,7 @@ import json
 import re
 import string
 from collections import Counter
+import emoji
 
 import pandas as pd
 import numpy as np
@@ -58,10 +59,10 @@ def find_loc(tweet):
     else:
         return 'Other'
 
-def word_freq(tweets, keep=100):
+def word_freq(tweets, token_type='word', keep=100):
     '''
     tweets: a list of tweet, with each tweet being a dictionary
-    keep: only keep a fixed number of most frequent words
+    token_type: one of: word, hashtag, emoji
     
     return:
     top: a dictionary (can be read as json) with the format:
@@ -83,7 +84,14 @@ def word_freq(tweets, keep=100):
         if city != 'Other':
             city_count[city] += 1
             text = tweet['text']
-            token_list = [token for token in tokenizer.tokenize(text) if (token not in stop_words) and re.search(r'\w', token) is not None]
+            if token_type=='word':
+                token_list = [
+                    token for token in tokenizer.tokenize(text) if (token not in stop_words) and re.search(r'\w', token) is not None
+                ]
+            elif token_type=='hashtag':
+                token_list = re.findall(r'\#\w+', text)
+            elif token_type=='emoji':
+                token_list = re.findall(emoji.get_emoji_regexp(), text)
             word_freq[city].update(token_list)
     top = {city: dict(sorted(list(word_freq[city].items()), key=lambda x: x[1], reverse=True)[:keep]) for city in cities}
     return top, city_count
