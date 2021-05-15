@@ -54,16 +54,50 @@ const TOURISM_DATA = "tourism";
 let LabourDetailed = (props) => {
   const location = props.location;
 
-  return <div>
-1
-  </div>
-}
+  // - Bar
+  let Keyname = Object.keys(employ_reduce);
+  let keyList = Object.keys(employ_reduce[cities[0]]);
+  
+  const data_1 = [];
+  
+  // for (const city of Object.keys(tourism_reduce)) {
+  for (const city of location) {
+    const tmp = {"Cities":city}
+    for (const value of Object.keys(employ_reduce[city]) ){
+      tmp[value] = employ_reduce[city][value];
+    }
+    data_1.push(tmp);
+  }
 
+  return (
+  <div>
+      <BarChart_ data={data_1} keyName={"Cities"} keyList={keyList} brush_flag={false} height={300} width={500}></BarChart_>
+  </div>
+  )
+}
 let MedicareDetailed = (props) => {
   const location = props.location;
-  return <div>
-    2
+
+  // - Bar
+  let Keyname = Object.keys(medicare_reduce);
+  let keyList = Object.keys(medicare_reduce[cities[0]]);
+  
+  const data_1 = [];
+  
+  // for (const city of Object.keys(tourism_reduce)) {
+  for (const city of location) {
+    const tmp = {"Cities":city}
+    for (const value of Object.keys(medicare_reduce[city]) ){
+      tmp[value] = medicare_reduce[city][value];
+    }
+    data_1.push(tmp);
+  }
+
+  return (
+  <div>
+      <BarChart_ data={data_1} keyName={"Cities"} keyList={keyList} brush_flag={false} height={300} width={500}></BarChart_>
   </div>
+  )
 }
 
 let TourismDetailed = (props) => {
@@ -87,7 +121,7 @@ let TourismDetailed = (props) => {
 
   return (
   <div>
-      <BarChart_ data={data_1} keyName={Keyname} keyList={keyList} brush_flag={false} height={300} width={500}></BarChart_>
+      <BarChart_ data={data_1} keyName={"Cities"} keyList={keyList} brush_flag={false} height={300} width={500}></BarChart_>
   </div>
   )
 }
