@@ -116,7 +116,7 @@ class HomePage extends React.Component {
       // console.log("key"+key);
       delete this.state.detailStreamComps[key];
       // console.log(detailStreamComps);
-      let tmp = { ...this.state.detailStreamComps }
+      // let tmp = { ...this.state.detailStreamComps }
       this.setState(this.state);
       // setDetailStreamComps(tmp);
     }
