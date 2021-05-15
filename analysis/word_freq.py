@@ -92,6 +92,8 @@ def word_freq(tweets, token_type='word', keep=100):
                 token_list = re.findall(r'\#\w+', text)
             elif token_type=='emoji':
                 token_list = re.findall(emoji.get_emoji_regexp(), text)
+            else:
+                return -1
             word_freq[city].update(token_list)
     top = {city: dict(sorted(list(word_freq[city].items()), key=lambda x: x[1], reverse=True)[:keep]) for city in cities}
     return top, city_count
