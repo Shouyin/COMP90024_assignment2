@@ -124,7 +124,6 @@ def test1331():
                    "Brisbane": {"Mon": 0, "Tue": 0, "Wed": 0, "Thu": 0, "Fri": 0, "Sat": 0, "Sun": 0},
                    "Sydney": {"Mon": 0, "Tue": 0, "Wed": 0, "Thu": 0, "Fri": 0, "Sat": 0, "Sun": 0}}
     for item in db.view('my_ddoc/weekly_sentiment', group_level=2):
-        print(item)
         city_name = item.key[1]
         if item.key[0] in result_dict[city_name]:
             result_dict[city_name][item.key[0]] += item.value
@@ -238,7 +237,6 @@ def test123():
     result_dict["Canberra"] = dict(sorted(result_dict["Canberra"].items(), key=lambda e: e[1], reverse=True))
     result_dict["Brisbane"] = dict(sorted(result_dict["Brisbane"].items(), key=lambda e: e[1], reverse=True))
     result_dict["Sydney"] = dict(sorted(result_dict["Sydney"].items(), key=lambda e: e[1], reverse=True))
-    print(result_dict)
 
     return jsonify(status=1,
                    content=result_dict)
