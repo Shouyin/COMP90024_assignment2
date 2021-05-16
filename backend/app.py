@@ -73,6 +73,7 @@ def test12():
 @app.route('/api/wordfreq', methods=['POST'])
 def test1441():
     specifytime = request.json["specify_time"]
+    result_dict = {"Melbourne": 0, "Canberra": 0, "Brisbane": 0, "Sydney": 0}
     if int(specifytime) == 1:
         start_time = request.json['start_time']
         start_time = start_time.split(" ")
@@ -80,7 +81,7 @@ def test1441():
         end_time = end_time.split(" ")
         keyword = request.json['keyword']
         view_name = 'my_ddoc/' + keyword
-        result_dict = {}
+
         for item in db.view(view_name,
                             group_level=3,
                             startkey=[int(start_time[0]), int(start_time[1])],
@@ -98,7 +99,6 @@ def test1441():
     else:
         keyword = request.json['keyword']
         view_name = 'my_ddoc/' + keyword
-        result_dict = {}
         for item in db.view(view_name,
                             group_level=3
                             ):
@@ -119,7 +119,10 @@ def test1441():
 # content = {'Melbourne': {'Sun': -1.737878787878788}, 'Canberra': {'Sun': -1.737878787878788}, 'Brisbane': {'Sun': -1.737878787878788}, 'Sydney': {'Sun': -1.737878787878788}}
 @app.route('/api/weeklySentiment', methods=['GET', 'POST'])
 def test1331():
-    result_dict = {"Melbourne": {}, "Canberra": {}, "Brisbane": {}, "Sydney": {}}
+    result_dict = {"Melbourne": {"Mon": 0, "Tue": 0, "Wed": 0, "Thu": 0, "Fri": 0, "Sat": 0, "Sun": 0},
+                   "Canberra": {"Mon": 0, "Tue": 0, "Wed": 0, "Thu": 0, "Fri": 0, "Sat": 0, "Sun": 0},
+                   "Brisbane": {"Mon": 0, "Tue": 0, "Wed": 0, "Thu": 0, "Fri": 0, "Sat": 0, "Sun": 0},
+                   "Sydney": {"Mon": 0, "Tue": 0, "Wed": 0, "Thu": 0, "Fri": 0, "Sat": 0, "Sun": 0}}
     for item in db.view('my_ddoc/weekly_sentiment', group_level=2):
         print(item)
         city_name = item.key[1]
