@@ -39,7 +39,7 @@ security_groups:
     port_range_max: 2377
     remote_ip_prefix: 0.0.0.0/0
     direction: ingress
-  - name: autobk
+  - name: autobk # backend debug
     description: "auto bk"
     protocol: tcp
     port_range_min: 8000
@@ -65,6 +65,13 @@ security_groups:
     protocol: tcp
     port_range_min: 7946
     port_range_max: 7946
+    remote_ip_prefix: 0.0.0.0/0
+    direction: ingress
+  - name: autotcc # automatically join CouchDB cluster
+    description: "auto tcc"
+    protocol: tcp
+    port_range_min: 3001
+    port_range_max: 3001
     remote_ip_prefix: 0.0.0.0/0
     direction: ingress
   - name: autoswarm2udp
