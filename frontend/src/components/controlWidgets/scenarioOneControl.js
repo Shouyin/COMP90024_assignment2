@@ -46,10 +46,12 @@ let init = () => {
 
 init();
 
-
+const RESULT_DATA = "result";
 const LABOUR_DATA = "labour";
 const MEDICARE_DATA = "medicare";
 const TOURISM_DATA = "tourism";
+const SENTIMENT_DATA = "sentiment";
+const SPORTS_DATA = "sports";
 
 let LabourDetailed = (props) => {
   const location = props.location;
@@ -70,8 +72,9 @@ let LabourDetailed = (props) => {
   }
 
   return (
-  <div>
-      <BarChart_ data={data_1} keyName={"Cities"} keyList={keyList} brush_flag={false} height={300} width={500}></BarChart_>
+    <div style={detailStyle}>
+      <h3>Labour data</h3>
+      <BarChart_ data={data_1} keyName={"Cities"} keyList={keyList} brush_flag={false} height={300} width={560}></BarChart_>
   </div>
   )
 }
@@ -94,8 +97,9 @@ let MedicareDetailed = (props) => {
   }
 
   return (
-  <div>
-      <BarChart_ data={data_1} keyName={"Cities"} keyList={keyList} brush_flag={false} height={300} width={500}></BarChart_>
+    <div style={detailStyle}>
+      <h3>Medicare data</h3>
+      <BarChart_ data={data_1} keyName={"Cities"} keyList={keyList} brush_flag={false} height={300} width={560}></BarChart_>
   </div>
   )
 }
@@ -120,10 +124,91 @@ let TourismDetailed = (props) => {
   }
 
   return (
-  <div>
-      <BarChart_ data={data_1} keyName={"Cities"} keyList={keyList} brush_flag={false} height={300} width={500}></BarChart_>
+    <div style={detailStyle}>
+      <h3>Tourism data</h3>
+      <BarChart_ data={data_1} keyName={"Cities"} keyList={keyList} brush_flag={false} height={300} width={560}></BarChart_>
   </div>
   )
+}
+
+let SentimentDetailed = (props) => {
+  const location = props.location;
+
+  // - Bar
+  /*let Keyname = Object.keys(medicare_reduce);
+  let keyList = Object.keys(medicare_reduce[cities[0]]);
+  
+  const data_1 = [];
+  
+  // for (const city of Object.keys(tourism_reduce)) {
+  for (const city of location) {
+    const tmp = {"Cities":city}
+    for (const value of Object.keys(medicare_reduce[city]) ){
+      tmp[value] = medicare_reduce[city][value];
+    }
+    data_1.push(tmp);
+  }*/
+
+  return (
+    <div style={detailStyle}>
+      <h3>Sentiment data</h3>
+  </div>
+  )
+}
+
+let SportsDetailed = (props) => {
+  const location = props.location;
+
+  // - Bar
+  /*let Keyname = Object.keys(medicare_reduce);
+  let keyList = Object.keys(medicare_reduce[cities[0]]);
+  
+  const data_1 = [];
+  
+  // for (const city of Object.keys(tourism_reduce)) {
+  for (const city of location) {
+    const tmp = {"Cities":city}
+    for (const value of Object.keys(medicare_reduce[city]) ){
+      tmp[value] = medicare_reduce[city][value];
+    }
+    data_1.push(tmp);
+  }*/
+
+  return (
+    <div style={detailStyle}>
+      <h3>Sports data</h3>
+  </div>
+  )
+}
+
+let ResultDetailed = (props) => {
+  const location = props.location;
+
+  // - Bar
+  /*let Keyname = Object.keys(medicare_reduce);
+  let keyList = Object.keys(medicare_reduce[cities[0]]);
+  
+  const data_1 = [];
+  
+  // for (const city of Object.keys(tourism_reduce)) {
+  for (const city of location) {
+    const tmp = {"Cities":city}
+    for (const value of Object.keys(medicare_reduce[city]) ){
+      tmp[value] = medicare_reduce[city][value];
+    }
+    data_1.push(tmp);
+  }*/
+
+  return (
+    <div style={detailStyle}>
+      <h3>Results</h3>
+      <p>Melbourne is the best city, as shown in the blablabla</p>
+  </div>
+  )
+}
+
+const detailStyle = {
+  marginBottom: "64px",
 }
 
 
@@ -131,11 +216,14 @@ let Detailed = (props) => {
   const location = props.location;
   const state = props.state;
 
-  return <div>
+  return <div style={{marginBottom: "32px"}}>
     <h2>Scenario 1</h2>
+    {state[RESULT_DATA] ? <ResultDetailed location={location} /> : null}
       {state[LABOUR_DATA] ? <LabourDetailed location={location} /> : null}
       {state[MEDICARE_DATA] ? <MedicareDetailed location={location} /> : null}
-      {state[TOURISM_DATA] ? <TourismDetailed location={location} /> : null}
+    {state[TOURISM_DATA] ? <TourismDetailed location={location} /> : null}
+    {state[SENTIMENT_DATA] ? <SentimentDetailed location={location} /> : null}
+    {state[SPORTS_DATA] ? <SportsDetailed location={location} /> : null}
   </div>
 }
 
@@ -149,7 +237,7 @@ export default function ScenarioOneControl(props) {
 
   const key = "scenarioone";
 
-  const RadioButtonList = [LABOUR_DATA, MEDICARE_DATA, TOURISM_DATA];
+  const RadioButtonList = [RESULT_DATA, LABOUR_DATA, MEDICARE_DATA, TOURISM_DATA, SENTIMENT_DATA, SPORTS_DATA];
 
   let inst = {};
   for (let i of RadioButtonList) {

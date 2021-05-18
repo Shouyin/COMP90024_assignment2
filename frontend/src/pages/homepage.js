@@ -29,8 +29,6 @@ let getMap = (data, mapType, geojson, viewport) => {
   />
 }
 
-const scenario1 = 2;
-const scenario2 = 3;
 
 
 // let HomePage = () => {
@@ -48,10 +46,6 @@ class HomePage extends React.Component {
   };
 
   render() {
-    // this.state["value"] = 1;
-    // this.state["geojsonData"] = geojsonAULess;
-    // this.state["detailStreamComps"] = {};
-    // this.state["lv"] = "";
 
     let setValue = (newValue) => {
       this.setState({
@@ -79,11 +73,6 @@ class HomePage extends React.Component {
       });
     }
 
-    // const [value, setValue] = useState(1);
-    // const [geojsonData, setGeoJsonData] = useState(geojsonAULess);
-    // const [detailStreamComps, setDetailStreamComps] = useState({});
-
-    // const [lv, setLv] = useState("");
 
     const handleChange = (e, newv) => {
       // value == 2: scenario 1
@@ -124,7 +113,15 @@ class HomePage extends React.Component {
 
     return (
       <div>
-        <header style={headerStyle}>
+        {getControls("", setGeoJsonData, addComp, delComp, this.state.lv)}
+        {getMap("", "", this.state.geojsonData, defaultViewport)}
+        <DetailStream comp={this.state.detailStreamComps} />
+      </div>
+    );
+  }
+};
+
+/*<header style={headerStyle}>
           <Paper elevation={3} square>
             <Tabs
               value={this.state.value}
@@ -138,14 +135,7 @@ class HomePage extends React.Component {
               <Tab label="MELBOURNE" />
             </Tabs>
           </Paper>
-        </header>
-        {getControls("", setGeoJsonData, addComp, delComp, this.state.lv)}
-        {getMap("", "", this.state.geojsonData, defaultViewport)}
-        <DetailStream comp={this.state.detailStreamComps} />
-      </div>
-    );
-  }
-};
+        </header>*/
 
 /*<Fab color="primary" aria-label="add" style={{ position: "fixed", zIndex:1, bottom: "32px", left: "32px"}}>
         <AddIcon />
