@@ -1,0 +1,30 @@
+{
+    "Australian Capital Territory": {
+        "perc_patients_csts": -1.463966229747111,
+        " tot_oop_cst_patient_50th_percile": -1.007573171863328,
+        " all_patients_avg_medicare_bfts_expenditure_patient": -1.4290656208653347,
+        " all_patients_avg_oop_cst_patient": -1.452937666652641,
+        " all_patients_avg_no_patient": -1.455081669058369
+    },
+    "Greater Brisbane": {
+        "perc_patients_csts": 0.5497631292031341,
+        " tot_oop_cst_patient_50th_percile": 1.0930629439213126,
+        " all_patients_avg_medicare_bfts_expenditure_patient": 0.31864248469663575,
+        " all_patients_avg_oop_cst_patient": 0.828641291267576,
+        " all_patients_avg_no_patient": 0.34668251845587666
+    },
+    "Greater Melbourne": {
+        "perc_patients_csts": 0.19568260929152295,
+        " tot_oop_cst_patient_50th_percile": 0.5842939697862136,
+        " all_patients_avg_medicare_bfts_expenditure_patient": 0.2090045147638196,
+        " all_patients_avg_oop_cst_patient": 0.25110408450099037,
+        " all_patients_avg_no_patient": 0.2819182600781503
+    },
+    "Greater Sydney": {
+        "perc_patients_csts": 0.7185204912524544,
+        " tot_oop_cst_patient_50th_percile": -0.6697837418441964,
+        " all_patients_avg_medicare_bfts_expenditure_patient": 0.9014186214048772,
+        " all_patients_avg_oop_cst_patient": 0.3731922908840733,
+        " all_patients_avg_no_patient": 0.826480890524342
+    }
+}

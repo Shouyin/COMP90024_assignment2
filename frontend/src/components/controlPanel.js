@@ -6,7 +6,10 @@ import { Add as AddIcon, ExpandMore as ExpandMoreIcon } from '@material-ui/icons
 import LabourControl from "./controlWidgets/labourControl.js";
 import MedicareControl from "./controlWidgets/medicareControl.js";
 import LocationControl from "./controlWidgets/locationControl.js";
-import SenarioOneControl from "./controlWidgets/scenarioOneControl.js";
+import ScenarioOneControl from "./controlWidgets/scenarioOneControl.js";
+import ScenarioTwoControl from "./controlWidgets/scenarioTwoControl.js";
+import ScenarioThreeControl from "./controlWidgets/scenarioThreeControl.js";
+import ScenarioFourControl from "./controlWidgets/scenarioFourControl.js";
 
 
 let ControlWrapper = (insideControl, title) => {
@@ -39,17 +42,24 @@ let Controls = (props) => {
 
   const [location, setLocation] = useState(defaultLocation);
 
-  return <div style={{ position: "fixed", left: "32px", top: "128px", zIndex: 1, width: "20vw", minWidth: "280px" }}>
+  // console.log(location);
+
+  return <div style={{ position: "fixed", left: "32px", top: "64px", zIndex: 1, width: "20vw", minWidth: "280px" }}>
     <Paper elevation={2} style={{margin: "0px 0px 16px 0px"}}>
       <Typography variant="h6" component="h6" style={{padding: "16px 16px"}}>CONTROLS</Typography>
     </Paper>
     <div style={{ maxHeight: "calc(100vh - 240px)", padding: "2px", overflowY: "scroll", overflowX: "visible" }}>
-      {ControlWrapper(<LocationControl setLocation={setLocation} lv={lv}/>, "Location")}
-      {ControlWrapper(<LabourControl setGeoJsonData={setGeoJsonData} addComp={addComp} delComp={delComp} lv={lv} location={location}/>, "Labour")}
-      {ControlWrapper(<MedicareControl setGeoJsonData={setGeoJsonData} addComp={addComp} delComp={delComp} lv={lv} location={location}/>, "Medicare")}
+      {ControlWrapper(<LocationControl setLocation={setLocation} lv={lv} />, "Location")}
+      {ControlWrapper(<ScenarioOneControl setGeoJsonData={setGeoJsonData} addComp={addComp} delComp={delComp} lv={lv} location={location}/>, "Scenario 1: Best city")}
+      {ControlWrapper(<ScenarioTwoControl setGeoJsonData={setGeoJsonData} addComp={addComp} delComp={delComp} lv={lv} location={location} />, "Scenario 2: Word frequency")}
+      {ControlWrapper(<ScenarioThreeControl setGeoJsonData={setGeoJsonData} addComp={addComp} delComp={delComp} lv={lv} location={location}/>, "Scenario 3: Scomo")}
+      {ControlWrapper(<ScenarioFourControl setGeoJsonData={setGeoJsonData} addComp={addComp} delComp={delComp} lv={lv} location={location}/>, "Scenario 4: Foods")}
     </div>
     
   </div>
 }
+
+/*{ControlWrapper(<LabourControl setGeoJsonData={setGeoJsonData} addComp={addComp} delComp={delComp} lv={lv} location={location}/>, "Labour")}
+      {ControlWrapper(<MedicareControl setGeoJsonData={setGeoJsonData} addComp={addComp} delComp={delComp} lv={lv} location={location}/>, "Medicare")} */
 
 export default getControls;

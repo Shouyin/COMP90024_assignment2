@@ -1,0 +1,26 @@
+{
+    "Greater Brisbane": {
+        " vis_000_tot": -0.4324008389859301,
+        " avg_spend_per_night_aud_tot": 0.7716912797245131,
+        " spend_audm_tot": 1.3681675428988576,
+        " nights_000_tot": -0.0617304044228258
+    },
+    "Greater Melbourne": {
+        " vis_000_tot": 1.1268760951034342,
+        " avg_spend_per_night_aud_tot": 0.1257095188136246,
+        " spend_audm_tot": -0.1032977035470632,
+        " nights_000_tot": -0.5852861996106097
+    },
+    "Greater Sydney": {
+        " vis_000_tot": 0.45961794763276026,
+        " avg_spend_per_night_aud_tot": 0.547799873954262,
+        " spend_audm_tot": -0.23400092028008196,
+        " nights_000_tot": -0.7820038369414405
+    },
+    "Australian Capital Territory": {
+        " vis_000_tot": -1.1540932037502643,
+        " avg_spend_per_night_aud_tot": -1.4452006724923996,
+        " spend_audm_tot": -1.0308689190717124,
+        " nights_000_tot": 1.429020440974876
+    }
+}
