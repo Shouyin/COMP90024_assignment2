@@ -1,0 +1,10 @@
+- hosts: localhost
+  remote_user: ubuntu
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  gather_facts: true
+  roles:
+    - role: testrole
+  tasks:
+    - shell: bash local_script/../../backend/deploy.sh
+    - shell: bash local_script/../../backend/deploy-run.sh
