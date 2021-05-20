@@ -1,12 +1,14 @@
 import couchdb
 # couch = couchdb.Server('http://admin:111@192.168.2.232:5984/')
 # couch = couchdb.Server('http://admin:weakpw123@172.26.129.77:5984/')
+# couch = couchdb.Server('http://admin:111@172.26.129.125:5984/') # 5.20 ip address of new instance
 couch = couchdb.Server('http://admin:weakpw123@couchdb:5984/')
 # db = couch.create('test1') # create a new database
 db = couch['test1']
 
 
-# mapreduce的view, 如果是新数据库，运行一遍
+
+# mapreduce view,
 # doc1 = {
 #   "_id": "_design/my_ddoc",
 #   "views": {
@@ -28,7 +30,7 @@ from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
-######################### return sentiment {'Melbourne': 0.0, 'Sydney': -1.9500000000000002, 'Brisbane': 0.21212121212121213} #################################################################
+#  return sentiment {'Melbourne': 0.0, 'Sydney': -1.9500000000000002, 'Brisbane': 0.21212121212121213}
 @app.route('/api/tweets', methods=['POST'])
 def test12():
     specifytime = request.json["specify_time"]
@@ -123,13 +125,15 @@ def test1331():
     result_dict = {"Melbourne": {"Mon": 0, "Tue": 0, "Wed": 0, "Thu": 0, "Fri": 0, "Sat": 0, "Sun": 0},
                    "Canberra": {"Mon": 0, "Tue": 0, "Wed": 0, "Thu": 0, "Fri": 0, "Sat": 0, "Sun": 0},
                    "Brisbane": {"Mon": 0, "Tue": 0, "Wed": 0, "Thu": 0, "Fri": 0, "Sat": 0, "Sun": 0},
-                   "Sydney": {"Mon": 0, "Tue": 0, "Wed": 0, "Thu": 0, "Fri": 0, "Sat": 0, "Sun": 0}}
+                   "Sydney": {"Mon": 0, "Tue": 0, "Wed": 0, "Thu": 0, "Fri": 0, "Sat": 0, "Sun": 0},
+                   "Other": {"Mon": 0, "Tue": 0, "Wed": 0, "Thu": 0, "Fri": 0, "Sat": 0, "Sun": 0}}
     for item in db.view('my_ddoc/weekly_sentiment', group_level=2):
         city_name = item.key[1]
-        if item.key[0] in result_dict[city_name]:
-            result_dict[city_name][item.key[0]] += item.value
-        else:
-            result_dict[city_name][item.key[0]] = item.value
+        if city_name:
+            if item.key[0] in result_dict[city_name]:
+                result_dict[city_name][item.key[0]] += item.value
+            else:
+                result_dict[city_name][item.key[0]] = item.value
     return jsonify(status=1,
                    content=result_dict)
 
@@ -141,7 +145,7 @@ def test122():
     keywords_list = request.json["keywords"]
     # keywords_list = keywords.strip("[]").split(", ")
     specifytime = request.json["specify_time"]
-    result_dict = {"Melbourne": {}, "Canberra": {}, "Brisbane": {}, "Sydney": {}}
+    result_dict = {"Melbourne": {}, "Canberra": {}, "Brisbane": {}, "Sydney": {}, "Other": {}}
     #  initialize the result dict with keyword with initial value 0
     for key in result_dict:
         for keyword in keywords_list:
@@ -160,7 +164,8 @@ def test122():
                 city_name = item.key[2]
                 keyword = item.key[3]
                 if keyword in keywords_list:
-                    result_dict[city_name][item.key[3]] += item.value
+                    if city_name:
+                        result_dict[city_name][item.key[3]] += item.value
 
         if returnSentiment == "false":
             for item in db.view('my_ddoc/Keyword_freq',
@@ -170,7 +175,8 @@ def test122():
                 city_name = item.key[2]
                 keyword = item.key[3]
                 if keyword in keywords_list:
-                    result_dict[city_name][item.key[3]] += item.value
+                    if city_name:
+                        result_dict[city_name][item.key[3]] += item.value
 
         return jsonify(status=1,
                        content=result_dict)
@@ -182,7 +188,8 @@ def test122():
                 city_name = item.key[2]
                 keyword = item.key[3]
                 if keyword in keywords_list:
-                    result_dict[city_name][item.key[3]] += item.value
+                    if city_name:
+                        result_dict[city_name][item.key[3]] += item.value
 
         if returnSentiment == "false":
             for item in db.view('my_ddoc/Keyword_freq',
@@ -190,7 +197,8 @@ def test122():
                 city_name = item.key[2]
                 keyword = item.key[3]
                 if keyword in keywords_list:
-                    result_dict[city_name][item.key[3]] += item.value
+                    if city_name:
+                        result_dict[city_name][item.key[3]] += item.value
 
         return jsonify(status=1,
                        content=result_dict)
@@ -203,10 +211,11 @@ def test122():
 	"status": 1
 }
 '''
+# word cloud
 @app.route('/api/cityWordfreq', methods=['POST'])
 def test123():
     specifytime = request.json["specify_time"]
-    result_dict = {"Melbourne": {}, "Canberra": {}, "Brisbane": {}, "Sydney": {}}
+    result_dict = {"Melbourne": {}, "Canberra": {}, "Brisbane": {}, "Sydney": {}, "Other": {}}
     keywords_list = ['fish', 'about', 'better', 'bring', 'carry', 'clean', 'cut', 'done', 'draw', 'drink', 'eight', 'fall', 'far', 'full', 'got', 'grow', 'hold', 'hot', 'hurt', 'if', 'keep', 'kind', 'laugh', 'light', 'long', 'much', 'myself', 'never', 'only', 'own', 'pick', 'seven', 'shall', 'show', 'six', 'small', 'start', 'ten', 'today', 'together', 'try', 'warm', 'apple', 'baby', 'back', 'ball', 'bear', 'bed', 'bell', 'bird', 'birthday', 'boat', 'box', 'boy', 'bread', 'brother', 'cake', 'car', 'cat', 'chair', 'chicken', 'children', 'Christmas', 'coat', 'corn', 'cow', 'day', 'dog', 'doll', 'door', 'duck', 'egg', 'eye', 'farm', 'farmer', 'father', 'feet', 'fire', 'fish', 'floor', 'flower', 'game', 'garden', 'girl', 'goodbye', 'grass', 'ground', 'hand', 'head', 'hill', 'home', 'horse', 'house', 'kitty', 'leg', 'letter', 'man', 'men', 'milk', 'money', 'morning', 'mother', 'name', 'nest', 'night', 'paper', 'party', 'picture', 'pig', 'rabbit', 'rain', 'ring', 'robin', 'Santa Claus', 'school', 'seed', 'sheep', 'shoe', 'sister', 'snow', 'song', 'squirrel', 'stick', 'street', 'sun', 'table', 'thing', 'time', 'top', 'toy', 'tree', 'watch', 'water', 'way', 'wind', 'window', 'wood']
     #  initialize the result dict with keyword with initial value 0
     for key in result_dict:
@@ -225,15 +234,17 @@ def test123():
             city_name = item.key[2]
             keyword = item.key[3]
             if keyword in keywords_list:
-                result_dict[city_name][item.key[3]] += item.value
+                if city_name:
+                    result_dict[city_name][item.key[3]] += item.value
     else:  # if specify time == -1
         for item in db.view('my_ddoc/cityWordfreq',
                             group_level=4):
             city_name = item.key[2]
             keyword = item.key[3]
             if keyword in keywords_list:
-                result_dict[city_name][item.key[3]] += item.value
-
+                if city_name:
+                    result_dict[city_name][item.key[3]] += item.value
+    #  get the result and sort
     result_dict["Melbourne"] = dict(sorted(result_dict["Melbourne"].items(), key=lambda e: e[1], reverse=True))
     result_dict["Canberra"] = dict(sorted(result_dict["Canberra"].items(), key=lambda e: e[1], reverse=True))
     result_dict["Brisbane"] = dict(sorted(result_dict["Brisbane"].items(), key=lambda e: e[1], reverse=True))
