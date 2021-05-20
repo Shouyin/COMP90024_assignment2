@@ -8,6 +8,7 @@ db = couch['test1']
 
 
 
+# mapreduce view,
 # doc1 = {
 #   "_id": "_design/my_ddoc",
 #   "views": {
@@ -124,13 +125,15 @@ def test1331():
     result_dict = {"Melbourne": {"Mon": 0, "Tue": 0, "Wed": 0, "Thu": 0, "Fri": 0, "Sat": 0, "Sun": 0},
                    "Canberra": {"Mon": 0, "Tue": 0, "Wed": 0, "Thu": 0, "Fri": 0, "Sat": 0, "Sun": 0},
                    "Brisbane": {"Mon": 0, "Tue": 0, "Wed": 0, "Thu": 0, "Fri": 0, "Sat": 0, "Sun": 0},
-                   "Sydney": {"Mon": 0, "Tue": 0, "Wed": 0, "Thu": 0, "Fri": 0, "Sat": 0, "Sun": 0}}
+                   "Sydney": {"Mon": 0, "Tue": 0, "Wed": 0, "Thu": 0, "Fri": 0, "Sat": 0, "Sun": 0},
+                   "Other": {"Mon": 0, "Tue": 0, "Wed": 0, "Thu": 0, "Fri": 0, "Sat": 0, "Sun": 0}}
     for item in db.view('my_ddoc/weekly_sentiment', group_level=2):
         city_name = item.key[1]
-        if item.key[0] in result_dict[city_name]:
-            result_dict[city_name][item.key[0]] += item.value
-        else:
-            result_dict[city_name][item.key[0]] = item.value
+        if city_name:
+            if item.key[0] in result_dict[city_name]:
+                result_dict[city_name][item.key[0]] += item.value
+            else:
+                result_dict[city_name][item.key[0]] = item.value
     return jsonify(status=1,
                    content=result_dict)
 
