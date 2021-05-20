@@ -4,7 +4,9 @@ import Checkbox from "@material-ui/core/Checkbox";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 
-import ReactWordcloud from 'react-wordcloud';
+// import ReactWordcloud from 'react-wordcloud';
+
+import { TagCloud } from 'react-tagcloud';
 import React, { useEffect } from "react";
 
 import regionsa3 from "../../aurin_data/regions/sa3.json";
@@ -29,7 +31,7 @@ import tourism_reduce from "../../aurin_data/reduced_data/tourism_reduce.json";
 import PieChart_ from "../plots/PieChart_.js";
 import BarChart_ from "../plots/BarChart_.js";
 import LineChart_ from "../plots/LineChart_.js";
-import WordCloud_ from "../plots/WordCloud_.js";
+// import WordCloud_ from "../plots/WordCloud_.js";
 
 import { cities, citiesNames, namesCities } from "../../consts/consts.js";
 
@@ -133,43 +135,22 @@ let TourismDetailed = (props) => {
 }
 
 const weekly = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-const week = [];
+const week1 = [];
 for (let j of weekly) {
   let tmp = { "name": j };
   for (let i of cities) {
     tmp[i] = Math.random();
   }
-  week.push(tmp);
+  week1.push(tmp);
 }
 
-console.log(week);
-
-
-let wordSubProcess = (wSnamel) => {
-  let tmp = [];
-  for (let i of Object.keys(wSnamel)) {
-    tmp.push({ "text": i, "value": wSnamel[i] });
-  }
-  return tmp;
-}
-
-let wordToWords = (word, locations) => {
-  let tmp = {};
-  console.log(word);
-  for (let i of locations) {
-    let snamel = citiesNames[i];
-    console.log(snamel);
-    if (snamel in word) {
-      tmp[snamel] = wordSubProcess(word[snamel]);
-    }
-  }
-  return tmp;
-}
+console.log(week1);
 
 let SentimentDetailed = (props) => {
 
 
   const location = props.location;
+  const week = week1;
 
   let dispdata = [];
   let ks = [];
@@ -187,45 +168,13 @@ let SentimentDetailed = (props) => {
     }
     dispdata.push(tmp);
   }
-
-  const word = {
-    "Melbourne": {
-      "clean": 99,
-      "hi": 98
-    },
-    "Canberra": {
-      "ki": 99,
-      "like": 98,
-    },
-    "Brisbane": {
-      "hi": 88,
-      "ok": 84,
-    },
-    "Sydney": {
-      "eat": 89,
-      "hi": 87,
-    }
-  }
-  
-
-  let citWords = wordToWords(word, location);
-
-  console.log(citWords);
-
-  let wc = [];
-  for (let ct of Object.keys(citWords)) {
-    wc.push(<ReactWordcloud
-      words={citWords[ct]}
-    />)
-  }
-
   
 
   return (
     <div style={detailStyle}>
       <h3>Sentiment data</h3>
+      <h4>Weekly Sentiment Score</h4>
       <LineChart_ height={300} width={560} data={dispdata} keyName={"name"} keyList={ks}></LineChart_>
-      {wc}
   </div>
   )
 }
@@ -319,8 +268,6 @@ export default function ScenarioOneControl(props) {
   }
 
   const [state, setState] = React.useState(inst);
-
-  const names = []
 
   const shouldClose = (state) => {
     for (let i of Object.keys(state)) {
