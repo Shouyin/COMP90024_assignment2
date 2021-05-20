@@ -1,6 +1,7 @@
 import couchdb
 # couch = couchdb.Server('http://admin:111@192.168.2.232:5984/')
-couch = couchdb.Server('http://admin:weakpw123@172.26.129.77:5984/')
+# couch = couchdb.Server('http://admin:weakpw123@172.26.129.77:5984/')
+couch = couchdb.Server('http://admin:weakpw123@couchdb:5984/')
 # db = couch.create('test1') # create a new database
 db = couch['test1']
 

@@ -4,6 +4,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 
+import ReactWordcloud from 'react-wordcloud';
 import React, { useEffect } from "react";
 
 import regionsa3 from "../../aurin_data/regions/sa3.json";
@@ -30,7 +31,7 @@ import BarChart_ from "../plots/BarChart_.js";
 import LineChart_ from "../plots/LineChart_.js";
 import WordCloud_ from "../plots/WordCloud_.js";
 
-import { cities } from "../../consts/consts.js";
+import { cities, citiesNames, namesCities } from "../../consts/consts.js";
 
 const Disabled = "disable";
 
@@ -64,7 +65,7 @@ let LabourDetailed = (props) => {
   
   // for (const city of Object.keys(tourism_reduce)) {
   for (const city of location) {
-    const tmp = {"Cities":city}
+    const tmp = {"Cities":citiesNames[city]}
     for (const value of Object.keys(employ_reduce[city]) ){
       tmp[value] = employ_reduce[city][value];
     }
@@ -89,7 +90,7 @@ let MedicareDetailed = (props) => {
   
   // for (const city of Object.keys(tourism_reduce)) {
   for (const city of location) {
-    const tmp = {"Cities":city}
+    const tmp = {"Cities":citiesNames[city]}
     for (const value of Object.keys(medicare_reduce[city]) ){
       tmp[value] = medicare_reduce[city][value];
     }
@@ -116,7 +117,7 @@ let TourismDetailed = (props) => {
   
   // for (const city of Object.keys(tourism_reduce)) {
   for (const city of location) {
-    const tmp = {"Cities":city}
+    const tmp = {"Cities":citiesNames[city]}
     for (const value of Object.keys(tourism_reduce[city]) ){
       tmp[value] = tourism_reduce[city][value];
     }
@@ -131,27 +132,100 @@ let TourismDetailed = (props) => {
   )
 }
 
+const weekly = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const week = [];
+for (let j of weekly) {
+  let tmp = { "name": j };
+  for (let i of cities) {
+    tmp[i] = Math.random();
+  }
+  week.push(tmp);
+}
+
+console.log(week);
+
+
+let wordSubProcess = (wSnamel) => {
+  let tmp = [];
+  for (let i of Object.keys(wSnamel)) {
+    tmp.push({ "text": i, "value": wSnamel[i] });
+  }
+  return tmp;
+}
+
+let wordToWords = (word, locations) => {
+  let tmp = {};
+  console.log(word);
+  for (let i of locations) {
+    let snamel = citiesNames[i];
+    console.log(snamel);
+    if (snamel in word) {
+      tmp[snamel] = wordSubProcess(word[snamel]);
+    }
+  }
+  return tmp;
+}
+
 let SentimentDetailed = (props) => {
+
+
   const location = props.location;
 
-  // - Bar
-  /*let Keyname = Object.keys(medicare_reduce);
-  let keyList = Object.keys(medicare_reduce[cities[0]]);
-  
-  const data_1 = [];
-  
-  // for (const city of Object.keys(tourism_reduce)) {
-  for (const city of location) {
-    const tmp = {"Cities":city}
-    for (const value of Object.keys(medicare_reduce[city]) ){
-      tmp[value] = medicare_reduce[city][value];
+  let dispdata = [];
+  let ks = [];
+
+  for (let q of location) {
+    ks.push(citiesNames[q]);
+  }
+
+  for (let i of week) {
+    let tmp = {"name": i["name"]}
+    for (let j of location) {
+      if (j in i) {
+        tmp[citiesNames[j]] = i[j];
+      }
     }
-    data_1.push(tmp);
-  }*/
+    dispdata.push(tmp);
+  }
+
+  const word = {
+    "Melbourne": {
+      "clean": 99,
+      "hi": 98
+    },
+    "Canberra": {
+      "ki": 99,
+      "like": 98,
+    },
+    "Brisbane": {
+      "hi": 88,
+      "ok": 84,
+    },
+    "Sydney": {
+      "eat": 89,
+      "hi": 87,
+    }
+  }
+  
+
+  let citWords = wordToWords(word, location);
+
+  console.log(citWords);
+
+  let wc = [];
+  for (let ct of Object.keys(citWords)) {
+    wc.push(<ReactWordcloud
+      words={citWords[ct]}
+    />)
+  }
+
+  
 
   return (
     <div style={detailStyle}>
       <h3>Sentiment data</h3>
+      <LineChart_ height={300} width={560} data={dispdata} keyName={"name"} keyList={ks}></LineChart_>
+      {wc}
   </div>
   )
 }

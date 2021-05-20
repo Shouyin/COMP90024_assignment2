@@ -17,12 +17,4 @@
     ansible_python_interpreter: python3
   gather_facts: true
   tasks:
-    - set_fact:
-        ips: ["172.26.129.77", "172.26.130.32", "172.26.133.93", "172.26.129.7"]
-    - openstack.cloud.recordset:
-        state: present
-        zone: unimelb-comp90024-2021-grp-6.cloud.edu.au.
-        name: www.unimelb-comp90024-2021-grp-6.cloud.edu.au.
-        recordset_type: "a"
-        records: "{{ ips }}"
-        ttl: 3600
+    - shell: cd "../infrastructure/ttcc/" && bash deploy.sh

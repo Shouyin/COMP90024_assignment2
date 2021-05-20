@@ -9,6 +9,20 @@ const cities = ["Australian Capital Territory",
   "Greater Melbourne",
   "Greater Sydney"];
 
+const citiesNames = {
+  "Australian Capital Territory": "Canberra",
+  "Greater Brisbane": "Brisbane",
+  "Greater Melbourne": "Melbourne",
+  "Greater Sydney": "Sydney"
+};
+
+const namesCities = {
+  "Canberra": "Australian Capital Territory",
+  "Brisbane": "Greater Brisbane",
+  "Melbourne": "Greater Melbourne",
+  "Sydney": "Greater Sydney",
+};
+
 const cityLevel = "";
 
-export { defaultViewport, cityLevel, cities};
+export { defaultViewport, cityLevel, cities, citiesNames, namesCities};

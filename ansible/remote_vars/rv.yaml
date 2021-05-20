@@ -1,4 +1,4 @@
 local_script: remote_scripts/inshould.sh
 remote_script: ~/inshould.sh
 dataroot: /data
-dbdata: /data/db
+dbdata: /data/dbn
