@@ -7,7 +7,7 @@ import CheckBoxIcon from "@material-ui/icons/CheckBox";
 // import ReactWordcloud from 'react-wordcloud';
 
 import { TagCloud } from 'react-tagcloud';
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import regionsa3 from "../../aurin_data/regions/sa3.json";
 import regionsa4 from "../../aurin_data/regions/sa4.json";
@@ -146,11 +146,53 @@ for (let j of weekly) {
 
 console.log(week1);
 
+let rpToWeek = (rp) => {
+  let k = [];
+  for (let j of weekly) {
+    let tmp = { "name": j };
+    for (let i of Object.keys(namesCities)) {
+      tmp[i] = rp[i][j];
+    }
+    k.push(tmp);
+  }
+  return k;
+}
+
+let weekly1 = undefined;
+
 let SentimentDetailed = (props) => {
+
+  const [weeklyd, setWeeklyd] = useState(undefined)
+
+  // if (weeklyd == undefined) {
+  useEffect(() => {
+      if (weekly1 == undefined) {
+        fetch("http://localhost:8000/api/weeklySentiment")
+        .then(rp =>
+          rp.json()
+        )
+        .then(res => {
+          // weeklyd = res["content"];
+          let w = rpToWeek(res["content"]);
+          weekly1 = w;
+          console.log(w);
+          // console.log(res["content"]);
+          setWeeklyd(w);
+        }) 
+      }
+  }, []);
+    // return <div></div>
+  // }
+  if (weeklyd == undefined && weekly1 != undefined) {
+    setWeeklyd(weekly1);
+    return <div></div>
+  }else if (weeklyd == undefined) {
+    return <div></div>
+  }
 
 
   const location = props.location;
-  const week = week1;
+  const week = weeklyd;
 
   let dispdata = [];
   let ks = [];
@@ -162,12 +204,14 @@ let SentimentDetailed = (props) => {
   for (let i of week) {
     let tmp = {"name": i["name"]}
     for (let j of location) {
-      if (j in i) {
-        tmp[citiesNames[j]] = i[j];
+      if (citiesNames[j] in i) {
+        tmp[citiesNames[j]] = i[citiesNames[j]];
       }
     }
     dispdata.push(tmp);
   }
+
+  console.log(dispdata)
   
 
   return (

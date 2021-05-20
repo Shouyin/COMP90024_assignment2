@@ -3,7 +3,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 
 import { TagCloud } from 'react-tagcloud';
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import regionsa3 from "../../aurin_data/regions/sa3.json";
 import regionsa4 from "../../aurin_data/regions/sa4.json";
@@ -50,11 +50,13 @@ let wordToWords = (word, locations) => {
   return tmp;
 }
 
+let wwcc = undefined;
+
 let Detailed = (props) => {
   const location = props.location;
   const state = props.state;
 
-  const word = {
+  /*const word = {
     "Melbourne": {
       "clean": 99,
       "hi": 98
@@ -71,6 +73,50 @@ let Detailed = (props) => {
       "eat": 89,
       "hi": 87,
     }
+  }*/
+
+  const [word, setWord] = useState(undefined);
+
+  const start_time = "2019 3";
+  const end_time = "2021 3";
+
+  useEffect(() => {
+    if (wwcc == undefined) {
+      fetch("http://0.0.0.0:8000/api/cityWordfreq", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "specify_time": 1,
+        "start_time": start_time,
+        "end_time": end_time
+      })
+    })
+      .then(rp =>
+        rp.json()
+      )
+      .then(res => {
+        // weeklyd = res["content"];
+        let w = res["content"];
+        // weekly1 = w;
+        wwcc = w;
+        console.log(w);
+        // console.log(res["content"]);
+        // setWeeklyd(w);
+        setWord(w);
+      })
+    }
+  }, []);
+  
+
+  if (word == undefined && wwcc != undefined) {
+    setWord(wwcc);
+    return <div></div>
+  }
+
+  if (word == undefined) {
+    return <div></div>
   }
   
 
@@ -87,6 +133,8 @@ let Detailed = (props) => {
       onClick={tag => alert(`'${tag.value}' was selected!`)}
     /></div>)
   }
+
+  console.log(wc);
 
   return <div>
     <h2>Scenario 2</h2>
