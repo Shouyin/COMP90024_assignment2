@@ -1,6 +1,10 @@
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
+import {
+  Fab, Paper, FormGroup, FormControlLabel,
+  Checkbox, InputLabel, MenuItem, FormControl, Select, Slider, ListSubheader, CircularProgress,
+  Chip
+} from '@material-ui/core';
+
+import { ExpandLess, ExpandMore } from "@material-ui/icons";
 
 import { TagCloud } from 'react-tagcloud';
 import React, { useEffect, useState } from "react";
@@ -18,8 +22,10 @@ import geojsonAULess from "../../shapes/geojsonAUless.json";
 import { initLabour, initMedicare, initTourism } from "../../aurin_data/p.js";
 import { getCityLocMap } from "../../aurin_data/map.js";
 
+import DT from "./detailTitle.js";
 
-import { cities, citiesNames, namesCities } from "../../consts/consts.js";
+
+import { cities, host, citiesNames, namesCities } from "../../consts/consts.js";
 
 
 // initializing
@@ -76,13 +82,18 @@ let Detailed = (props) => {
   }*/
 
   const [word, setWord] = useState(undefined);
+  const [collaps, setCollaps] = useState(false);
 
   const start_time = "2019 3";
   const end_time = "2021 3";
 
+  // TODO timeline
+  
+  // TODO tops
+
   useEffect(() => {
     if (wwcc == undefined) {
-      fetch("http://0.0.0.0:8000/api/cityWordfreq", {
+      fetch(host + "/api/cityWordfreq", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -112,11 +123,19 @@ let Detailed = (props) => {
 
   if (word == undefined && wwcc != undefined) {
     setWord(wwcc);
-    return <div></div>
+    return <div>
+      <h2>Scenario 2</h2>
+      {location.length != 0 ? undefined : <p>No location is selected</p>}
+      <CircularProgress color="primary" />
+    </div>
   }
 
   if (word == undefined) {
-    return <div></div>
+    return <div>
+      <h2>Scenario 2</h2>
+      {location.length != 0 ? undefined : <p>No location is selected</p>}
+      <CircularProgress color="primary" />
+    </div>
   }
   
 
@@ -136,9 +155,10 @@ let Detailed = (props) => {
 
   console.log(wc);
 
-  return <div>
-    <h2>Scenario 2</h2>
-    {wc}
+  return <div style={{marginBottom: "32px"}}>
+    <DT t={"Scenario 2: Word frequency"} collaps={collaps} setCollaps={setCollaps} />
+    { location.length != 0? undefined: <p>No location is selected</p>}
+    {collaps? undefined: wc}
   </div>
 }
 

@@ -25,4 +25,28 @@ const namesCities = {
 
 const cityLevel = "";
 
-export { defaultViewport, cityLevel, cities, citiesNames, namesCities};
+const foods = ['#thai food', 'pizza', 'pasta', 'lasagna', 'fish', 'chips',
+  'korean food', 'sushi', 'hamburgers', 'burgers', 'hotpot', '#Chinese food', 'dumplings', 'noodles', 'soup', 
+  'fries', 'steak', 'ice cream', '#cheese', 'youghurt', 'froyo', 'lobster', 'lobsters'];
+
+const drinks = ['beer', 'boba tea', 'tea', 'whiskey', 'tequila', 'juice', 'milk', 'bubble tea', 'coffee', 'hot choc',
+  'Vodka']
+
+const foodDrinks = [].concat(foods).concat(drinks);
+
+const host = "http://172.26.129.125:8000";
+
+const sports = ['football', 'swimming', 'soccer', 'dance', 'dancing', 'basketball', 'AFL', 'tennis', 'cricket', 'NRL',
+  'cycling', 'netball'];
+
+const scomo = ['#ScottMorrison', '#COVID19', '#bushfire',
+  '#jobseekers', '#kangarooisland', '#naturalHazard', '#Recruiting', '#Staffing', '#Hiring', '#jobsearch'];
+
+const rangeMax = 40;
+const startYear = 2018;
+
+export {
+  defaultViewport, cityLevel, host, cities,
+  citiesNames, namesCities, foods, drinks, foodDrinks, sports,
+  rangeMax, startYear, scomo
+};

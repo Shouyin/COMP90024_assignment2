@@ -1,8 +1,8 @@
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
-import CheckBoxIcon from "@material-ui/icons/CheckBox";
+import {
+  Fab, Paper, FormGroup, FormControlLabel,
+  Checkbox, InputLabel, MenuItem, FormControl, Select, Slider, ListSubheader, CircularProgress,
+  Chip
+} from '@material-ui/core';
 
 // import ReactWordcloud from 'react-wordcloud';
 
@@ -33,10 +33,10 @@ import BarChart_ from "../plots/BarChart_.js";
 import LineChart_ from "../plots/LineChart_.js";
 // import WordCloud_ from "../plots/WordCloud_.js";
 
-import { cities, citiesNames, namesCities } from "../../consts/consts.js";
+import DT from "./detailTitle.js";
 
-const Disabled = "disable";
-
+import { cities, host, citiesNames, namesCities, sports } from "../../consts/consts.js";
+import { fetchCount } from "./request.js";
 
 // initializing
 let init = () => {
@@ -135,16 +135,6 @@ let TourismDetailed = (props) => {
 }
 
 const weekly = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-const week1 = [];
-for (let j of weekly) {
-  let tmp = { "name": j };
-  for (let i of cities) {
-    tmp[i] = Math.random();
-  }
-  week1.push(tmp);
-}
-
-console.log(week1);
 
 let rpToWeek = (rp) => {
   let k = [];
@@ -158,36 +148,43 @@ let rpToWeek = (rp) => {
   return k;
 }
 
+/*
+    Sentiment | weekly sentiment
+*/
 let weekly1 = undefined;
 
-let SentimentDetailed = (props) => {
+let WeeklySentiment = (props) => {
+  // const location = props.location;
 
   const [weeklyd, setWeeklyd] = useState(undefined)
 
   // if (weeklyd == undefined) {
   useEffect(() => {
       if (weekly1 == undefined) {
-        fetch("http://localhost:8000/api/weeklySentiment")
+        fetch(host + "/api/weeklySentiment")
         .then(rp =>
           rp.json()
         )
         .then(res => {
-          // weeklyd = res["content"];
+          
           let w = rpToWeek(res["content"]);
           weekly1 = w;
           console.log(w);
-          // console.log(res["content"]);
+          
           setWeeklyd(w);
         }) 
       }
   }, []);
-    // return <div></div>
-  // }
+
   if (weeklyd == undefined && weekly1 != undefined) {
     setWeeklyd(weekly1);
-    return <div></div>
+    return <div>
+      <CircularProgress color="primary" />
+    </div>
   }else if (weeklyd == undefined) {
-    return <div></div>
+    return <div>
+      <CircularProgress color="primary" />
+    </div>
   }
 
 
@@ -212,38 +209,66 @@ let SentimentDetailed = (props) => {
   }
 
   console.log(dispdata)
-  
+
+  return <LineChart_ height={300} width={560} data={dispdata} keyName={"name"} keyList={ks}></LineChart_>
+}
+
+
+let SentimentDetailed = (props) => {
+
+  const location = props.location;
 
   return (
     <div style={detailStyle}>
       <h3>Sentiment data</h3>
       <h4>Weekly Sentiment Score</h4>
-      <LineChart_ height={300} width={560} data={dispdata} keyName={"name"} keyList={ks}></LineChart_>
+      <WeeklySentiment location={location} />
   </div>
   )
+}
+
+let CityDetailed = (props) => {
+  const dt = props.dt;
+  const ct = props.ct;
+  let bd = [];
+  for (let fd of Object.keys(dt)) {
+    let tmp = { "name": fd, "count": dt[fd] };
+      bd.push(tmp);
+  }
+  console.log(bd);
+  return <div>
+    <h3>{ct}: count of sports related tweets</h3>
+    <BarChart_ data={bd} keyName={"name"} keyList={["count"]} brush_flag={false} height={300} width={560} />
+    </div>
 }
 
 let SportsDetailed = (props) => {
   const location = props.location;
 
-  // - Bar
-  /*let Keyname = Object.keys(medicare_reduce);
-  let keyList = Object.keys(medicare_reduce[cities[0]]);
-  
-  const data_1 = [];
-  
-  // for (const city of Object.keys(tourism_reduce)) {
-  for (const city of location) {
-    const tmp = {"Cities":city}
-    for (const value of Object.keys(medicare_reduce[city]) ){
-      tmp[value] = medicare_reduce[city][value];
+  const start_time = "2018 1";
+  const end_time = "2021 5";
+  const lw = sports;
+
+  const [sportcount, setSportcount] = useState(undefined);
+
+  useEffect(
+    () => {
+      fetchCount(start_time, end_time, lw, setSportcount);
     }
-    data_1.push(tmp);
-  }*/
+    , [])
+  
+  let t = [];
+  if (sportcount != undefined) {
+    for (let i of Object.keys(sportcount)) {
+      t.push(<CityDetailed ct={i} dt={sportcount[i]} />)
+    }
+  }
 
   return (
     <div style={detailStyle}>
       <h3>Sports data</h3>
+      {t}
+      {t.length == 0? <CircularProgress color="primary" />: undefined}
   </div>
   )
 }
@@ -283,14 +308,17 @@ let Detailed = (props) => {
   const location = props.location;
   const state = props.state;
 
+  const [collaps, setCollaps] = useState(false);
+
   return <div style={{marginBottom: "32px"}}>
-    <h2>Scenario 1</h2>
-    {state[RESULT_DATA] ? <ResultDetailed location={location} /> : null}
-      {state[LABOUR_DATA] ? <LabourDetailed location={location} /> : null}
-      {state[MEDICARE_DATA] ? <MedicareDetailed location={location} /> : null}
-    {state[TOURISM_DATA] ? <TourismDetailed location={location} /> : null}
-    {state[SENTIMENT_DATA] ? <SentimentDetailed location={location} /> : null}
-    {state[SPORTS_DATA] ? <SportsDetailed location={location} /> : null}
+    <DT t={"Scenario 1: the Best city"} collaps={collaps} setCollaps={setCollaps} />
+    { location.length != 0? undefined: <p>No location is selected</p>}
+    {state[RESULT_DATA] && !collaps ? <ResultDetailed location={location} /> : null}
+      {state[LABOUR_DATA] && !collaps ? <LabourDetailed location={location} /> : null}
+      {state[MEDICARE_DATA] && !collaps ? <MedicareDetailed location={location} /> : null}
+    {state[TOURISM_DATA] && !collaps ? <TourismDetailed location={location} /> : null}
+    {state[SENTIMENT_DATA] && !collaps ? <SentimentDetailed location={location} /> : null}
+    {state[SPORTS_DATA] && !collaps ? <SportsDetailed location={location} /> : null}
   </div>
 }
 

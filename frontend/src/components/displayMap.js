@@ -76,6 +76,7 @@ function Map(props) {
       mapboxApiAccessToken={mapkey}
       onViewportChange={(nextViewport) => setViewport(nextViewport)}
       onHover={onHover}
+      mapStyle={"mapbox://styles/mapbox/light-v10"}
     >
       <Source id="mapdata" type="geojson" data={geojsonData}>
         <Layer {...layerStyle} />
