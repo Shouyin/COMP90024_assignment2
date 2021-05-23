@@ -7,11 +7,7 @@ couch = couchdb.Server('http://admin:weakpw123@couchdb:5984/')
 db = couch['test1']
 
 
-
-
-
-
-# mapreduce的view,
+# mapreduce view,
 # doc1 = {
 #   "_id": "_design/my_ddoc",
 #   "views": {
@@ -36,6 +32,7 @@ app = Flask(__name__)
 #  return sentiment {'Melbourne': 0.0, 'Sydney': -1.9500000000000002, 'Brisbane': 0.21212121212121213}
 @app.route('/api/tweets', methods=['POST'])
 def test12():
+
     specifytime = request.json["specify_time"]
     if int(specifytime) == 1:
         start_time = request.json['start_time']
@@ -53,11 +50,6 @@ def test12():
             else:
                 result_dict[item.key[2]] = item.value
 
-        if result_dict:
-            return jsonify(status=1,
-                           content=result_dict)
-        else:
-            return jsonify(status=-1)
     else:
         result_dict = {}
         for item in db.view('my_ddoc/my_filter2',
@@ -68,12 +60,16 @@ def test12():
             else:
                 result_dict[item.key[2]] = item.value
 
-        if result_dict:
-            return jsonify(status=1,
-                           content=result_dict)
-        else:
-            return jsonify(status=-1,
-                           content=-1)
+    city_count_dict = {"Melbourne": 278652, "Canberra": 14911, "Brisbane": 109118, "Sydney": 235387, "Other": 235387}
+    for cityname in city_count_dict:
+        result_dict[cityname] = result_dict[cityname] / city_count_dict[cityname] * 1000
+
+    if result_dict:
+        return jsonify(status=1,
+                       content=result_dict)
+    else:
+        return jsonify(status=-1,
+                       content=-1)
 
 
 @app.route('/api/wordfreq', methods=['POST'])
@@ -97,11 +93,6 @@ def test1441():
             else:
                 result_dict[item.key[2]] = item.value
 
-        if result_dict:
-            return jsonify(status=1,
-                           content=result_dict)
-        else:
-            return jsonify(status=-1)
     else:
         keyword = request.json['keyword']
         view_name = 'my_ddoc/' + keyword
@@ -113,11 +104,16 @@ def test1441():
             else:
                 result_dict[item.key[2]] = item.value
 
-        if result_dict:
-            return jsonify(status=1,
-                           content=result_dict)
-        else:
-            return jsonify(status=-1)
+    print(result_dict)
+    city_count_dict = {"Melbourne": 278652, "Canberra": 14911, "Brisbane": 109118, "Sydney": 235387, "Other": 235387}
+    for cityname in city_count_dict:
+        result_dict[cityname] = result_dict[cityname] / city_count_dict[cityname] * 1000
+    if result_dict:
+        return jsonify(status=1,
+                       content=result_dict)
+    else:
+        return jsonify(status=-1)
+
 
 
 
@@ -130,7 +126,7 @@ def test1331():
                    "Brisbane": {"Mon": 0, "Tue": 0, "Wed": 0, "Thu": 0, "Fri": 0, "Sat": 0, "Sun": 0},
                    "Sydney": {"Mon": 0, "Tue": 0, "Wed": 0, "Thu": 0, "Fri": 0, "Sat": 0, "Sun": 0},
                    "Other": {"Mon": 0, "Tue": 0, "Wed": 0, "Thu": 0, "Fri": 0, "Sat": 0, "Sun": 0}}
-    city_count_dict = {"Melbourne": 29, "Canberra": 4, "Brisbane": 23, "Sydney": 25, "Other": 25}
+    city_count_dict = {"Melbourne": 278652, "Canberra": 14911, "Brisbane": 109118, "Sydney": 235387, "Other": 235387}
     for item in db.view('my_ddoc/weekly_sentiment', group_level=2):
         city_name = item.key[1]
         if city_name:
@@ -141,7 +137,7 @@ def test1331():
     # divided by tweet count
     for cityname in result_dict:
         for day in result_dict[cityname]:
-            result_dict[cityname][day] = result_dict[cityname][day]/city_count_dict[cityname]
+            result_dict[cityname][day] = result_dict[cityname][day]/city_count_dict[cityname] * 1000
     return jsonify(status=1,
                    content=result_dict)
 
@@ -189,10 +185,6 @@ def test122():
                 if keyword in keywords_list:
                     if city_name:
                         result_dict[city_name][item.key[3]] += item.value
-
-        return jsonify(status=1,
-                       content=result_dict)
-
     else:  # if specify time is not 1
         if returnSentiment == "true":
             for item in db.view('my_ddoc/Keyword_sentiment',
@@ -212,8 +204,13 @@ def test122():
                     if city_name:
                         result_dict[city_name][item.key[3]] += item.value
 
-        return jsonify(status=1,
-                       content=result_dict)
+    print(result_dict)
+    city_count_dict = {"Melbourne": 278652, "Canberra": 14911, "Brisbane": 109118, "Sydney": 235387, "Other": 235387}
+    for cityname in result_dict:
+        for day in result_dict[cityname]:
+            result_dict[cityname][day] = result_dict[cityname][day]/city_count_dict[cityname] * 10000
+    return jsonify(status=1,
+                   content=result_dict)
 '''
 {
 	“content”: {
@@ -250,6 +247,7 @@ def test123():
             if keyword in keywords_list:
                 if city_name:
                     result_dict[city_name][item.key[3]] += item.value
+
     else:  # if specify time == -1
         for item in db.view('my_ddoc/cityWordfreq',
                             group_level=4):
@@ -263,6 +261,7 @@ def test123():
     result_dict["Canberra"] = dict(sorted(result_dict["Canberra"].items(), key=lambda e: e[1], reverse=True))
     result_dict["Brisbane"] = dict(sorted(result_dict["Brisbane"].items(), key=lambda e: e[1], reverse=True))
     result_dict["Sydney"] = dict(sorted(result_dict["Sydney"].items(), key=lambda e: e[1], reverse=True))
+
 
     return jsonify(status=1,
                    content=result_dict)
