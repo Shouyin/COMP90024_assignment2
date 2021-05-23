@@ -34,7 +34,7 @@ const drinks = ['beer', 'boba tea', 'tea', 'whiskey', 'tequila', 'juice', 'milk'
 
 const foodDrinks = [].concat(foods).concat(drinks);
 
-const host = "http://172.26.129.125:8000";
+const host = "";
 
 const sports = ['football', 'swimming', 'soccer', 'dance', 'dancing', 'basketball', 'AFL', 'tennis', 'cricket', 'NRL',
   'cycling', 'netball'];

@@ -18,7 +18,16 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className="App" style={{fontFamily: ["-apple-system", "BlinkMacSystemFont", 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', "sans-serif"]}}>
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', "sans-serif"]
+      }}>
+        <div>
+          <style jsx global>{`
+            body {
+              margin: 0px;
+              padding: 0px;
+            }
+          `}</style>
+        </div>
         <HomePage />
         </div>
     </ThemeProvider>

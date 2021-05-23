@@ -4,37 +4,20 @@ import {
   Chip
 } from '@material-ui/core';
 
-import { ExpandLess, ExpandMore } from "@material-ui/icons";
-
 import React, { useEffect, useState } from "react";
 
-import regionsa3 from "../../aurin_data/regions/sa3.json";
-import regionsa4 from "../../aurin_data/regions/sa4.json";
-import regionlga from "../../aurin_data/regions/lga2018.json";
 
-
-import DisplayMap from "../displayMap.js";
 import { defaultViewport, namesCities, rangeMax, startYear, scomo } from "../../consts/consts.js";
-import geojsonAULess from "../../shapes/geojsonAUless.json";
 
 import electionRes from "../../aurin_data/results/election_result.json";
 
 
-import { initLabour, initMedicare, initTourism } from "../../aurin_data/p.js";
 import { getCityLocMap } from "../../aurin_data/map.js";
 import BarChart_ from "../plots/BarChart_";
-import { LocationSearching } from "@material-ui/icons";
 import DT from "./detailTitle.js";
 
 import { fetchSentiment, fetchCount } from "./request.js";
 
-
-// initializing
-let init = () => {
-  let [citySA3map, citySA4map, cityLGAmap] = getCityLocMap();
-};
-
-init();
 
 let ElectionDetail = (props) => {
   const location = props.location;
@@ -61,7 +44,7 @@ let ElectionDetail = (props) => {
   )
 
   ds.push(
-    <BarChart_ data={[tmp]} keyName={"name"} keyList={ks} brush_flag={false} height={300} width={560} />
+    <BarChart_ data={[tmp]} keyName={"name"} keyList={ks} brush_flag={false} height={300} width={620} />
   )
 
   tmp = { "name": librSw }
@@ -78,7 +61,7 @@ let ElectionDetail = (props) => {
   )
 
   ds.push(
-    <BarChart_ data={[tmp]} keyName={"name"} keyList={ks} brush_flag={false} height={300} width={560} />
+    <BarChart_ data={[tmp]} keyName={"name"} keyList={ks} brush_flag={false} height={300} width={620} />
   )
 
   return ds;
@@ -103,7 +86,7 @@ let CityDetailed = (props) => {
   console.log(bd);
   return <div>
     <h4>{ct}: {vn}</h4>
-    <BarChart_ data={bd} keyName={"name"} keyList={[vn]} brush_flag={false} height={300} width={560} />
+    <BarChart_ data={bd} keyName={"name"} keyList={[vn]} brush_flag={false} height={300} width={620} />
     </div>
 }
 

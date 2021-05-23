@@ -3,57 +3,24 @@ import {
   Checkbox, InputLabel, MenuItem, FormControl, Select, Slider, ListSubheader, CircularProgress,
   Chip
 } from '@material-ui/core';
-import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
-import CheckBoxIcon from "@material-ui/icons/CheckBox";
 
 import React, { useState, useEffect } from "react";
 
-import regionsa3 from "../../aurin_data/regions/sa3.json";
-import regionsa4 from "../../aurin_data/regions/sa4.json";
-import regionlga from "../../aurin_data/regions/lga2018.json";
 
-
-import DisplayMap from "../displayMap.js";
 import { defaultViewport, host, namesCities, foods, drinks, foodDrinks } from "../../consts/consts.js";
-import geojsonAULess from "../../shapes/geojsonAUless.json";
-
-
-import { initLabour, initMedicare, initTourism } from "../../aurin_data/p.js";
-import { getCityLocMap } from "../../aurin_data/map.js";
-import { Typography } from "@material-ui/core";
 
 import BarChart_ from "../plots/BarChart_.js";
+import PieChart_ from "../plots/PieChart_.js";
 
 import { fetchSentiment, fetchCount } from "./request.js";
+
+import { CityDetailed, CityDetailed1 } from "./ctDetail.js";
 
 import { rangeMax, startYear } from "../../consts/consts.js";
 
 import DT from "./detailTitle.js";
 
-
-// initializing
-let init = () => {
-  let [citySA3map, citySA4map, cityLGAmap] = getCityLocMap();
-};
-
-init();
-
-
-let CityDetailed = (props) => {
-  const dt = props.dt;
-  const ct = props.ct;
-  const vn = props.vn;
-  let bd = [];
-  for (let fd of Object.keys(dt)) {
-    let tmp = { "name": fd, [vn]: dt[fd] };
-      bd.push(tmp);
-  }
-  console.log(bd);
-  return <div>
-    <h4>{ct}: {vn}</h4>
-    <BarChart_ data={bd} keyName={"name"} keyList={[vn]} brush_flag={false} height={300} width={560} />
-    </div>
-}
+const sentik = false;
 
 let Sentifood = (props) => {
   const location = props.location;
@@ -65,13 +32,18 @@ let Sentifood = (props) => {
 
   const [sentiments, setSentiments] = useState(undefined);
 
+  const setsenti = (w) => {
+    countwt = false;
+    setSentiments(w);
+  }
+
   let wl = Object.keys(foodTags);
 
   useEffect(() => {
-    fetchSentiment(start_time, end_time, wl, setSentiments)
+    fetchSentiment(start_time, end_time, wl, setsenti)
   }, [props.foodTags, props.usetimerange]);
 
-  if (!sentiments) {
+  if (!sentiments || countwt) {
     return <div>
       {location.length != 0 ? undefined : <p>No location is selected</p>}
       <CircularProgress color="primary" />
@@ -91,6 +63,8 @@ let Sentifood = (props) => {
 
 }
 
+let countwt = false;
+
 let Countsfood = (props) => {
   const location = props.location;
   const usetimerange = props.usetimerange;
@@ -103,11 +77,16 @@ let Countsfood = (props) => {
 
   let wl = Object.keys(foodTags);
 
+  const setcountsfood = (w) => {
+    countwt = false;
+    setCountsfood(w);
+  }
+
   useEffect(() => {
-    fetchCount(start_time, end_time, wl, setCountsfood)
+    fetchCount(start_time, end_time, wl, setcountsfood)
   }, [props.foodTags, props.usetimerange]);
 
-  if (!countsfood) {
+  if (!countsfood || countwt) {
     return <div>
       {location.length != 0 ? undefined : <p>No location is selected</p>}
       <CircularProgress color="primary" />
@@ -119,7 +98,7 @@ let Countsfood = (props) => {
   let cs = [];
   for (let c of Object.keys(dt)) {
     if (location.includes(namesCities[c])) {
-      cs.push(<CityDetailed dt={dt[c]} ct={c} vn={"counts"} />);
+      cs.push(<CityDetailed1 dt={dt[c]} ct={c} vn={"counts"} />);
     }
   }
 
@@ -254,6 +233,7 @@ export default function ScenarioFourControl(props) {
   const handleTags = (event) => {
     let newg = { ...foodTags, [event.target.value]: true };
     // console.log(newg);
+    countwt = true;
     setfoodTags(newg);
 
     !shouldClose(state) ? addComp(
@@ -265,6 +245,7 @@ export default function ScenarioFourControl(props) {
     let newg = { ...foodTags };
     delete newg[k];
     console.log(k);
+    countwt = true;
     setfoodTags(newg);
     !shouldClose(state) ? addComp(
       key, <Detailed state={state} foodTags={newg} usetimerange={usetimerange} location={location} />
@@ -277,6 +258,7 @@ export default function ScenarioFourControl(props) {
       clearTimeout(tm);
     }
     tm = setTimeout(() => {
+      countwt = true;
       console.log(newValue)
       setUsetimerange(newValue)
       !shouldClose(state) ? addComp(

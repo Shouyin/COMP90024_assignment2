@@ -1,10 +1,8 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState } from "react";
 import { Fab, Paper, Tabs, Tab, Accordion, AccordionSummary, Typography, AccordionDetails, Button } from '@material-ui/core';
 import { Add as AddIcon, ExpandMore as ExpandMoreIcon } from '@material-ui/icons';
 
 
-import LabourControl from "./controlWidgets/labourControl.js";
-import MedicareControl from "./controlWidgets/medicareControl.js";
 import LocationControl from "./controlWidgets/locationControl.js";
 import ScenarioOneControl from "./controlWidgets/scenarioOneControl.js";
 import ScenarioTwoControl from "./controlWidgets/scenarioTwoControl.js";

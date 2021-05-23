@@ -1,23 +1,12 @@
 import React, { useState, useCallback, useMemo } from "react";
 import DisplayMap from "../components/displayMap.js";
 import DetailStream from "../components/detailStream.js";
-import geojsonAU from "../shapes/geojsonAU.json";
-import geojsonAULess from "../shapes/geojsonAUless.json";
-import geojsonLGAvc from "../shapes/geojsonLGAvc.json";
 import { headerStyle } from "./styles/homepageStyle";
 
 import getControls from "../components/controlPanel.js";
 
 import { defaultViewport, cityLevel } from "../consts/consts.js";
 
-import { Fab, Paper, Tabs, Tab, Accordion, AccordionSummary, Typography, AccordionDetails, Button } from '@material-ui/core';
-import { Add as AddIcon, ExpandMore as ExpandMoreIcon } from '@material-ui/icons';
-
-
-import PieChart_ from "../components/plots/PieChart_.js"
-import BarChart_ from "../components/plots/BarChart_.js"
-import LineChart_ from "../components/plots/LineChart_.js"
-import WordCloud_ from "../components/plots/WordCloud_.js"
 
 // mapType: different types of map
 let getMap = (data, mapType, geojson, viewport) => {
@@ -25,7 +14,6 @@ let getMap = (data, mapType, geojson, viewport) => {
     width={"100vw"}
     height={"100vh"}
     viewport={viewport} // initial viewport
-    geojsonData={geojson}
   />
 }
 
@@ -40,7 +28,7 @@ class HomePage extends React.Component {
 
   state = {
     "value": 1,
-    "geojsonData": geojsonAULess,
+    "geojsonData": undefined,
     "detailStreamComps": {},
     "lv": ""
   };

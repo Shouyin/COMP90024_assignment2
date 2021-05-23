@@ -1,25 +1,15 @@
 import {
   Fab, Paper, FormGroup, FormControlLabel,
-  Checkbox, InputLabel, MenuItem, FormControl, Select, Slider, ListSubheader, CircularProgress,
+  Checkbox, Slider, CircularProgress,
   Chip
 } from '@material-ui/core';
-
-import { ExpandLess, ExpandMore } from "@material-ui/icons";
 
 import { TagCloud } from 'react-tagcloud';
 import React, { useEffect, useState } from "react";
 
-import regionsa3 from "../../aurin_data/regions/sa3.json";
-import regionsa4 from "../../aurin_data/regions/sa4.json";
-import regionlga from "../../aurin_data/regions/lga2018.json";
 
+import { rangeMax, startYear } from "../../consts/consts.js";
 
-import DisplayMap from "../displayMap.js";
-import { defaultViewport } from "../../consts/consts.js";
-import geojsonAULess from "../../shapes/geojsonAUless.json";
-
-
-import { initLabour, initMedicare, initTourism } from "../../aurin_data/p.js";
 import { getCityLocMap } from "../../aurin_data/map.js";
 
 import DT from "./detailTitle.js";
@@ -27,40 +17,40 @@ import DT from "./detailTitle.js";
 
 import { cities, host, citiesNames, namesCities } from "../../consts/consts.js";
 
-
-// initializing
-let init = () => {
-  let [citySA3map, citySA4map, cityLGAmap] = getCityLocMap();
-};
-
-init();
-
-let wordSubProcess = (wSnamel) => {
+let wordSubProcess = (wSnamel, tops) => {
   let tmp = [];
   for (let i of Object.keys(wSnamel)) {
-    tmp.push({ "value": i, "count": wSnamel[i] });
+    tmp.push({ "value": i + " (" + wSnamel[i] + ")", "count": wSnamel[i] });
   }
-  return tmp;
+  tmp.sort((first, second) => {
+    return second.count - first.count;
+  })
+  return tmp.slice(0, tops);
 }
 
-let wordToWords = (word, locations) => {
+let wordToWords = (word, locations, tops) => {
   let tmp = {};
   console.log(word);
   for (let i of locations) {
     let snamel = citiesNames[i];
     console.log(snamel);
     if (snamel in word) {
-      tmp[snamel] = wordSubProcess(word[snamel]);
+      tmp[snamel] = wordSubProcess(word[snamel], tops);
     }
   }
   return tmp;
 }
 
 let wwcc = undefined;
+let wwccst = undefined;
+let wwccet = undefined;
+let loading = false;
 
 let Detailed = (props) => {
   const location = props.location;
   const state = props.state;
+  const usetimerange = props.usetimerange;
+  const tops = props.top;
 
   /*const word = {
     "Melbourne": {
@@ -84,15 +74,16 @@ let Detailed = (props) => {
   const [word, setWord] = useState(undefined);
   const [collaps, setCollaps] = useState(false);
 
-  const start_time = "2019 3";
-  const end_time = "2021 3";
+  const start_time = nToM(usetimerange[0], " ");
+  const end_time = nToM(usetimerange[1], " ");
 
   // TODO timeline
   
   // TODO tops
 
   useEffect(() => {
-    if (wwcc == undefined) {
+    console.log("effect" + start_time + end_time)
+    if (wwcc == undefined || wwccst != start_time || wwccet != end_time) {
       fetch(host + "/api/cityWordfreq", {
       method: 'POST',
       headers: {
@@ -112,13 +103,27 @@ let Detailed = (props) => {
         let w = res["content"];
         // weekly1 = w;
         wwcc = w;
+        wwccst = start_time;
+        wwccet = end_time;
         console.log(w);
+        loading = false;
         // console.log(res["content"]);
         // setWeeklyd(w);
         setWord(w);
       })
     }
-  }, []);
+  }, [usetimerange]);
+
+  console.log("after" + start_time + end_time + loading)
+
+  if (loading == true) {
+    console.log("lgin")
+    return <div>
+      <h2>Scenario 2</h2>
+      {location.length != 0 ? undefined : <p>No location is selected</p>}
+      <CircularProgress color="primary" />
+    </div>
+  }
   
 
   if (word == undefined && wwcc != undefined) {
@@ -139,7 +144,7 @@ let Detailed = (props) => {
   }
   
 
-  let citWords = wordToWords(word, location);
+  let citWords = wordToWords(word, location, tops);
 
   console.log(citWords);
 
@@ -149,7 +154,7 @@ let Detailed = (props) => {
       minSize={18}
       maxSize={35}
       tags={citWords[ct]}
-      onClick={tag => alert(`'${tag.value}' was selected!`)}
+      onClick={tag => alert(`'${tag.count}'`)}
     /></div>)
   }
 
@@ -160,6 +165,52 @@ let Detailed = (props) => {
     { location.length != 0? undefined: <p>No location is selected</p>}
     {collaps? undefined: wc}
   </div>
+}
+
+let nToM = (n, sep) => {
+  let ya = startYear + Math.floor(n / 12)
+  let m = (n % 12) + 1
+  return ya.toString() + sep + m
+}
+
+let tm = undefined;
+
+let TimerangeSlider = (props) => {
+  const timerange = props.timerange
+  const handleRange = props.handleRange
+
+  const marks = [
+    {
+      value: 0,
+      label: '18 Jan',
+    },
+    {
+      value: 12,
+      label: '19 Jan',
+    },
+    {
+      value: 24,
+      label: '20 Jan',
+    },
+    {
+      value: 40,
+      label: '21 May',
+    },
+  ];
+
+  return <div>
+    <p>Time range {nToM(timerange[0], " ")} to {nToM(timerange[1], " ")}</p>
+  <div style={{ display: "flex", justifyContent: "center"}}>
+    <Slider
+      style={{width: "90%"}}
+        value={timerange}
+      onChange={handleRange}
+        marks={marks}
+      max={rangeMax}
+      />
+    </div>
+  </div>
+
 }
 
 
@@ -179,6 +230,9 @@ export default function ScenarioTwoControl(props) {
   let inst = {onlySwitch: false};
 
   const [state, setState] = React.useState(inst);
+  const [top, setTop] = React.useState(10) // 0 - 40, 2018 - 1 - 2021 - 5
+  const [timerange, setTimerange] = React.useState([25, rangeMax]) // 0 - 40, 2018 - 1 - 2021 - 5
+  const [usetimerange, setUsetimerange] = React.useState(timerange);
 
   const shouldClose = (state) => {
     for (let i of Object.keys(state)) {
@@ -194,7 +248,7 @@ export default function ScenarioTwoControl(props) {
       
       shouldClose(state) ? delComp(key) :
       addComp(
-        key, <Detailed state={state} location={props.location} />
+        key, <Detailed state={state} usetimerange={usetimerange} top={top} location={props.location} />
       );
     },
     [props.location],
@@ -206,7 +260,29 @@ export default function ScenarioTwoControl(props) {
     setState(newState);
 
     newState[onlySwitch] ? addComp(
-      key, <Detailed state={newState} location={location} />
+      key, <Detailed state={newState} usetimerange={usetimerange} top={top} location={location} />
+    ): delComp(key);
+  };
+
+  const handleRange = (event, newValue) => {
+    setTimerange(newValue);
+    if (tm != undefined) {
+      clearTimeout(tm);
+    }
+    tm = setTimeout(() => {
+      loading = true;
+      console.log(newValue)
+      setUsetimerange(newValue)
+      !shouldClose(state) ? addComp(
+        key, <Detailed state={state} usetimerange={newValue} top={top} location={location} />
+      ): delComp(key);
+    }, 1000);
+  };
+
+  const handleTop = (event, newValue) => {
+    setTop(newValue);
+    !shouldClose(state) ? addComp(
+      key, <Detailed state={state} usetimerange={usetimerange} top={newValue} location={location} />
     ): delComp(key);
   };
 
@@ -225,5 +301,22 @@ export default function ScenarioTwoControl(props) {
     return children;
   };
 
-  return <FormGroup>{Radios()}</FormGroup>;
+  return <FormGroup>
+    {Radios()}
+    <p>Number of top words</p>
+    <div style={{ display: "flex", justifyContent: "center"}}>
+    <Slider
+      style={{ width: "90%" }}
+      defaultValue={top}
+      step={1}
+      marks
+      min={1}
+      max={100}
+      valueLabelDisplay="auto"
+      onChange={handleTop}
+      
+    />
+    </div>
+    <TimerangeSlider timerange={timerange} handleRange={handleRange} />
+  </FormGroup>;
 }

@@ -1,9 +1,4 @@
 import { Fab, Paper } from '@material-ui/core';
-import DisplayMap from "./displayMap.js";
-import { defaultViewport } from "../consts/consts.js";
-import geojsonAU from "../shapes/geojsonAU.json";
-import geojsonAULess from "../shapes/geojsonAUless.json";
-import geojsonLGAvc from "../shapes/geojsonLGAvc.json";
 import { useState } from 'react';
 
 import { ArrowBackIos, ArrowForwardIos } from "@material-ui/icons";
@@ -28,8 +23,8 @@ let DetailStream = (props) => {
   
   return <Paper elevation={3} style={{
     padding: "32px", backgroundColor: "rgba(255, 255, 255,0.9)", zIndex: 1,
-    position: "fixed", right: show ? "0px" : "calc(128px - 40vw)",
-    top: "0px", height: "95vh", width: "45vw", overflow: "scroll",
+    position: "fixed", right: show ? "0px" : "calc(128px - 60vw)",
+    top: "0px", height: "95vh", width: "60vw", overflow: "scroll",
     backdropFilter: "blur(8px)"
   }}>
     <div style={{display: "flex", textAlign: "center", verticalAlign: "center"}}>

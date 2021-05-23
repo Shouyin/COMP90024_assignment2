@@ -11,9 +11,10 @@ let DT = (props) => {
   const collaps = props.collaps;
   const setCollaps = props.setCollaps;
 
-  return <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+  return <div style={{
+    display: "flex", width: "100%", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
     <h2 style={{ marginRight: "18px" }}>{t}</h2>
-    <Button variant="contained" color="secondary" onClick={() => {setCollaps(!collaps)}}>
+    <Button variant="outlined" color="secondary" onClick={() => {setCollaps(!collaps)}}>
     {collaps ? <ExpandMore style={{marginRight: "6px"}} /> : <ExpandLess style={{marginRight: "6px"}} />}
     {collaps ? "Show" : "Collapse"}
     </Button>

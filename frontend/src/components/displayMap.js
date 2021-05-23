@@ -1,14 +1,6 @@
 import React, { useState, useCallback, useMemo } from "react";
-import ReactDOM from "react-dom";
-import {
-  ComposableMap,
-  Geographies,
-  Geography,
-  ZoomableGroup,
-} from "react-simple-maps";
-import geojsonAULess from "../shapes/geojsonAUless.json";
 import mapboxgl from "mapbox-gl";
-import geojsonAU from "../shapes/geojsonAU.json";
+// import geojsonAU from "../shapes/geojsonAU.json";
 import ReactMapGL, { Source, Layer } from "react-map-gl";
 
 mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
@@ -37,7 +29,7 @@ const layerStyle = {
 
 function Map(props) {
   let vp = defaultViewport;
-  let geojsonData = geojsonAU;
+  let geojsonData = undefined;
   if (props.viewport) {
     vp = props.viewport;
   }
@@ -68,6 +60,12 @@ function Map(props) {
     );
   }, []);
 
+  /*
+    <Source id="mapdata" type="geojson" data={geojsonData}>
+        <Layer {...layerStyle} />
+      </Source>
+  */
+
   return (
     <ReactMapGL
       {...viewport}
@@ -78,9 +76,6 @@ function Map(props) {
       onHover={onHover}
       mapStyle={"mapbox://styles/mapbox/light-v10"}
     >
-      <Source id="mapdata" type="geojson" data={geojsonData}>
-        <Layer {...layerStyle} />
-      </Source>
       {hoverInfo && (
         <div
           className="tooltip"

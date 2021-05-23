@@ -4,33 +4,22 @@ import {
   Chip
 } from '@material-ui/core';
 
-// import ReactWordcloud from 'react-wordcloud';
-
-import { TagCloud } from 'react-tagcloud';
 import React, { useEffect, useState } from "react";
-
-import regionsa3 from "../../aurin_data/regions/sa3.json";
-import regionsa4 from "../../aurin_data/regions/sa4.json";
-import regionlga from "../../aurin_data/regions/lga2018.json";
-
-
-import DisplayMap from "../displayMap.js";
-import { defaultViewport } from "../../consts/consts.js";
-import geojsonAULess from "../../shapes/geojsonAUless.json";
-
-
-import { initLabour, initMedicare, initTourism } from "../../aurin_data/p.js";
-import { getCityLocMap } from "../../aurin_data/map.js";
 
 
 import employ_reduce from "../../aurin_data/reduced_data/employ_reduce.json";
 import medicare_reduce from "../../aurin_data/reduced_data/medicare_reduce.json";
 import tourism_reduce from "../../aurin_data/reduced_data/tourism_reduce.json";
 
+import mdmedicare from "../../aurin_data/medicare_sa3/metadata_medicare_sa3.json";
+import mdlabour from "../../aurin_data/labour_sa4/metadata_labour_sa4.json";
+import mdtouri from "../../aurin_data/tourism_lga2018/metadata_tourism_lga2018.json";
+
 
 import PieChart_ from "../plots/PieChart_.js";
 import BarChart_ from "../plots/BarChart_.js";
 import LineChart_ from "../plots/LineChart_.js";
+import { CityDetailed, CityDetailed1 } from "./ctDetail.js";
 // import WordCloud_ from "../plots/WordCloud_.js";
 
 import DT from "./detailTitle.js";
@@ -38,16 +27,9 @@ import DT from "./detailTitle.js";
 import { cities, host, citiesNames, namesCities, sports } from "../../consts/consts.js";
 import { fetchCount } from "./request.js";
 
-// initializing
-let init = () => {
-  let [citySA3map, citySA4map, cityLGAmap] = getCityLocMap();
-
-  /*let labour = initLabour(citySA4map);
-  let medicare = initMedicare(citySA3map);
-  let tourism = initTourism(cityLGAmap);*/
+let trim = (name) => {
+  return name.replace(/^\s+|\s+$/g, "");
 };
-
-init();
 
 const RESULT_DATA = "result";
 const LABOUR_DATA = "labour";
@@ -62,6 +44,19 @@ let LabourDetailed = (props) => {
   // - Bar
   let Keyname = Object.keys(employ_reduce);
   let keyList = Object.keys(employ_reduce[cities[0]]);
+
+  let attributes = {};
+  let tmpk = [];
+
+  for (let i of mdlabour.selectedAttributes) {
+    attributes[i.name] = i.title;
+  }
+
+  for (let i of keyList) {
+    tmpk.push(attributes[trim(i)]);
+  }
+
+  keyList = tmpk;
   
   const data_1 = [];
   
@@ -69,7 +64,7 @@ let LabourDetailed = (props) => {
   for (const city of location) {
     const tmp = {"Cities":citiesNames[city]}
     for (const value of Object.keys(employ_reduce[city]) ){
-      tmp[value] = employ_reduce[city][value];
+      tmp[attributes[trim(value)]] = employ_reduce[city][value];
     }
     data_1.push(tmp);
   }
@@ -77,7 +72,7 @@ let LabourDetailed = (props) => {
   return (
     <div style={detailStyle}>
       <h3>Labour data</h3>
-      <BarChart_ data={data_1} keyName={"Cities"} keyList={keyList} brush_flag={false} height={300} width={560}></BarChart_>
+      <BarChart_ data={data_1} keyName={"Cities"} keyList={keyList} brush_flag={false} height={300} width={620}></BarChart_>
   </div>
   )
 }
@@ -86,7 +81,20 @@ let MedicareDetailed = (props) => {
 
   // - Bar
   let Keyname = Object.keys(medicare_reduce);
+  // let keyList = Object.keys(medicare_reduce[cities[0]]);
+  let attributes = {};
   let keyList = Object.keys(medicare_reduce[cities[0]]);
+  let tmpk = [];
+
+  for (let i of mdmedicare.selectedAttributes) {
+    attributes[i.name] = i.title;
+  }
+
+  for (let i of keyList) {
+    tmpk.push(attributes[trim(i)]);
+  }
+
+  keyList = tmpk;
   
   const data_1 = [];
   
@@ -94,7 +102,7 @@ let MedicareDetailed = (props) => {
   for (const city of location) {
     const tmp = {"Cities":citiesNames[city]}
     for (const value of Object.keys(medicare_reduce[city]) ){
-      tmp[value] = medicare_reduce[city][value];
+      tmp[attributes[trim(value)]] = medicare_reduce[city][value];
     }
     data_1.push(tmp);
   }
@@ -102,7 +110,7 @@ let MedicareDetailed = (props) => {
   return (
     <div style={detailStyle}>
       <h3>Medicare data</h3>
-      <BarChart_ data={data_1} keyName={"Cities"} keyList={keyList} brush_flag={false} height={300} width={560}></BarChart_>
+      <BarChart_ data={data_1} keyName={"Cities"} keyList={keyList} brush_flag={false} height={300} width={620}></BarChart_>
   </div>
   )
 }
@@ -114,6 +122,18 @@ let TourismDetailed = (props) => {
   // - Bar
   let Keyname = Object.keys(tourism_reduce);
   let keyList = Object.keys(tourism_reduce[cities[0]]);
+  let attributes = {};
+  let tmpk = [];
+
+  for (let i of mdtouri.selectedAttributes) {
+    attributes[i.name] = i.title;
+  }
+
+  for (let i of keyList) {
+    tmpk.push(attributes[trim(i)]);
+  }
+
+  keyList = tmpk;
   
   const data_1 = [];
   
@@ -121,7 +141,7 @@ let TourismDetailed = (props) => {
   for (const city of location) {
     const tmp = {"Cities":citiesNames[city]}
     for (const value of Object.keys(tourism_reduce[city]) ){
-      tmp[value] = tourism_reduce[city][value];
+      tmp[attributes[trim(value)]] = tourism_reduce[city][value];
     }
     data_1.push(tmp);
   }
@@ -129,7 +149,7 @@ let TourismDetailed = (props) => {
   return (
     <div style={detailStyle}>
       <h3>Tourism data</h3>
-      <BarChart_ data={data_1} keyName={"Cities"} keyList={keyList} brush_flag={false} height={300} width={560}></BarChart_>
+      <BarChart_ data={data_1} keyName={"Cities"} keyList={keyList} brush_flag={false} height={300} width={620}></BarChart_>
   </div>
   )
 }
@@ -210,7 +230,7 @@ let WeeklySentiment = (props) => {
 
   console.log(dispdata)
 
-  return <LineChart_ height={300} width={560} data={dispdata} keyName={"name"} keyList={ks}></LineChart_>
+  return <LineChart_ height={300} width={620} data={dispdata} keyName={"name"} keyList={ks}></LineChart_>
 }
 
 
@@ -225,21 +245,6 @@ let SentimentDetailed = (props) => {
       <WeeklySentiment location={location} />
   </div>
   )
-}
-
-let CityDetailed = (props) => {
-  const dt = props.dt;
-  const ct = props.ct;
-  let bd = [];
-  for (let fd of Object.keys(dt)) {
-    let tmp = { "name": fd, "count": dt[fd] };
-      bd.push(tmp);
-  }
-  console.log(bd);
-  return <div>
-    <h3>{ct}: count of sports related tweets</h3>
-    <BarChart_ data={bd} keyName={"name"} keyList={["count"]} brush_flag={false} height={300} width={560} />
-    </div>
 }
 
 let SportsDetailed = (props) => {
@@ -260,7 +265,9 @@ let SportsDetailed = (props) => {
   let t = [];
   if (sportcount != undefined) {
     for (let i of Object.keys(sportcount)) {
-      t.push(<CityDetailed ct={i} dt={sportcount[i]} />)
+      if (location.includes(namesCities[i])) {
+        t.push(<CityDetailed1 ct={i} dt={sportcount[i]} vn={"sport counts"} />)
+      }
     }
   }
 
@@ -268,7 +275,7 @@ let SportsDetailed = (props) => {
     <div style={detailStyle}>
       <h3>Sports data</h3>
       {t}
-      {t.length == 0? <CircularProgress color="primary" />: undefined}
+      {t.length == 0 && location.length != 0? <CircularProgress color="primary" />: undefined}
   </div>
   )
 }

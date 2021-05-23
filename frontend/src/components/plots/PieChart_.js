@@ -1,5 +1,5 @@
 import React from "react";
-import { PieChart, Pie, Legend, Tooltip, LabelList, Cell} from "recharts";
+import { PieChart, Pie, Legend, Tooltip, LabelList, Cell } from "recharts";
 
 export default function PieChart_(props) {
   /* props : (data,
@@ -21,12 +21,11 @@ export default function PieChart_(props) {
         isAnimationActive={true}
         data={data_}
         fill="#8884d8"
-        label
       >
         {data_.map((entry, index) => (
           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
         ))}
-        <LabelList dataKey="name" position="inside" />
+        <LabelList dataKey="name" position="outside" stroke={undefined} />
       </Pie>
       <Tooltip />
     </PieChart>
