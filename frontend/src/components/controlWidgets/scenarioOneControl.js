@@ -387,7 +387,7 @@ export default function ScenarioOneControl(props) {
           control={
             <Checkbox onChange={handleChange} name={i} />
           }
-          label={i}
+          label={i.slice(0,1).toUpperCase() + i.slice(1,i.length)}
         />
       );
     }

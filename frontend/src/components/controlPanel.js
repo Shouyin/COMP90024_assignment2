@@ -51,9 +51,9 @@ let Controls = (props) => {
     </Paper>
     <div style={{ maxHeight: "calc(100vh - 240px)", padding: "2px", overflowY: "scroll", overflowX: "visible" }}>
       {ControlWrapper(<LocationControl setLocation={setLocation} lv={lv} />, "Location")}
-      {ControlWrapper(<ScenarioOneControl setGeoJsonData={setGeoJsonData} addComp={addComp} delComp={delComp} lv={lv} location={location}/>, "Scenario 1: Best city")}
-      {ControlWrapper(<ScenarioTwoControl setGeoJsonData={setGeoJsonData} addComp={addComp} delComp={delComp} lv={lv} location={location} />, "Scenario 2: Word frequency")}
-      {ControlWrapper(<ScenarioThreeControl setGeoJsonData={setGeoJsonData} addComp={addComp} delComp={delComp} lv={lv} location={location}/>, "Scenario 3: Scomo")}
+      {ControlWrapper(<ScenarioOneControl setGeoJsonData={setGeoJsonData} addComp={addComp} delComp={delComp} lv={lv} location={location}/>, "Scenario 1: the Best City")}
+      {ControlWrapper(<ScenarioTwoControl setGeoJsonData={setGeoJsonData} addComp={addComp} delComp={delComp} lv={lv} location={location} />, "Scenario 2: Word Frequency")}
+      {ControlWrapper(<ScenarioThreeControl setGeoJsonData={setGeoJsonData} addComp={addComp} delComp={delComp} lv={lv} location={location}/>, "Scenario 3: Scott Morrison")}
       {ControlWrapper(<ScenarioFourControl setGeoJsonData={setGeoJsonData} addComp={addComp} delComp={delComp} lv={lv} location={location}/>, "Scenario 4: Foods")}
     </div>
     
