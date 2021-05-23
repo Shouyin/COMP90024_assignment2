@@ -7,6 +7,8 @@ couch = couchdb.Server('http://admin:weakpw123@couchdb:5984/')
 db = couch['test1']
 
 
+
+
 # mapreduce的view,
 # doc1 = {
 #   "_id": "_design/my_ddoc",
@@ -151,6 +153,9 @@ def test122():
     # keywords_list = keywords.strip("[]").split(", ")
     specifytime = request.json["specify_time"]
     result_dict = {"Melbourne": {}, "Canberra": {}, "Brisbane": {}, "Sydney": {}, "Other": {}}
+    for i in range(0, len(keywords_list)):
+        keywords_list[i] = keywords_list[i].lower()
+
     #  initialize the result dict with keyword with initial value 0
     for key in result_dict:
         for keyword in keywords_list:
@@ -179,6 +184,7 @@ def test122():
                                 endkey=[int(end_time[0]), int(end_time[1])]):
                 city_name = item.key[2]
                 keyword = item.key[3]
+
                 if keyword in keywords_list:
                     if city_name:
                         result_dict[city_name][item.key[3]] += item.value
@@ -222,6 +228,8 @@ def test123():
     specifytime = request.json["specify_time"]
     result_dict = {"Melbourne": {}, "Canberra": {}, "Brisbane": {}, "Sydney": {}, "Other": {}}
     keywords_list = ['fish', 'about', 'better', 'bring', 'carry', 'clean', 'cut', 'done', 'draw', 'drink', 'eight', 'fall', 'far', 'full', 'got', 'grow', 'hold', 'hot', 'hurt', 'if', 'keep', 'kind', 'laugh', 'light', 'long', 'much', 'myself', 'never', 'only', 'own', 'pick', 'seven', 'shall', 'show', 'six', 'small', 'start', 'ten', 'today', 'together', 'try', 'warm', 'apple', 'baby', 'back', 'ball', 'bear', 'bed', 'bell', 'bird', 'birthday', 'boat', 'box', 'boy', 'bread', 'brother', 'cake', 'car', 'cat', 'chair', 'chicken', 'children', 'Christmas', 'coat', 'corn', 'cow', 'day', 'dog', 'doll', 'door', 'duck', 'egg', 'eye', 'farm', 'farmer', 'father', 'feet', 'fire', 'fish', 'floor', 'flower', 'game', 'garden', 'girl', 'goodbye', 'grass', 'ground', 'hand', 'head', 'hill', 'home', 'horse', 'house', 'kitty', 'leg', 'letter', 'man', 'men', 'milk', 'money', 'morning', 'mother', 'name', 'nest', 'night', 'paper', 'party', 'picture', 'pig', 'rabbit', 'rain', 'ring', 'robin', 'Santa Claus', 'school', 'seed', 'sheep', 'shoe', 'sister', 'snow', 'song', 'squirrel', 'stick', 'street', 'sun', 'table', 'thing', 'time', 'top', 'toy', 'tree', 'watch', 'water', 'way', 'wind', 'window', 'wood']
+    for i in range(0, len(keywords_list)):
+        keywords_list[i] = keywords_list[i].lower()
     #  initialize the result dict with keyword with initial value 0
     for key in result_dict:
         for keyword in keywords_list:
