@@ -23,7 +23,7 @@ let CityDetailed1 = (props) => {
     </div>
   }
 
-  return <div>
+  return <div style={{width: "100%", height: "380px"}}>
     <h4>{ct}: {vn}</h4>
     <PieChart_ data={bd} keyName={"name"} height={300} width={620} />
     </div>
@@ -39,7 +39,7 @@ let CityDetailed = (props) => {
       bd.push(tmp);
   }
   console.log(bd);
-  return <div>
+  return <div style={{width: "100%", height: "380px"}}>
     <h4>{ct}: {vn}</h4>
     <BarChart_ data={bd} keyName={"name"} keyList={[vn]} brush_flag={false} height={300} width={620} />
     </div>

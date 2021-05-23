@@ -16,6 +16,8 @@ import { getCityLocMap } from "../../aurin_data/map.js";
 import BarChart_ from "../plots/BarChart_";
 import DT from "./detailTitle.js";
 
+import { CityDetailed, CityDetailed1 } from "./ctDetail.js";
+
 import { fetchSentiment, fetchCount } from "./request.js";
 
 
@@ -44,7 +46,9 @@ let ElectionDetail = (props) => {
   )
 
   ds.push(
+    <div style={{width: "100%", height: "300px"}}>
     <BarChart_ data={[tmp]} keyName={"name"} keyList={ks} brush_flag={false} height={300} width={620} />
+    </div>
   )
 
   tmp = { "name": librSw }
@@ -61,10 +65,12 @@ let ElectionDetail = (props) => {
   )
 
   ds.push(
-    <BarChart_ data={[tmp]} keyName={"name"} keyList={ks} brush_flag={false} height={300} width={620} />
+    <div style={{width: "100%", height: "300px"}}>
+      <BarChart_ data={[tmp]} keyName={"name"} keyList={ks} brush_flag={false} height={300} width={620} />
+      </div>
   )
 
-  return ds;
+  return ds
 
 }
 
@@ -72,22 +78,6 @@ let nToM = (n, sep) => {
   let ya = startYear + Math.floor(n / 12)
   let m = (n % 12) + 1
   return ya.toString() + sep + m
-}
-
-let CityDetailed = (props) => {
-  const dt = props.dt;
-  const ct = props.ct;
-  const vn = props.vn;
-  let bd = [];
-  for (let fd of Object.keys(dt)) {
-    let tmp = { "name": fd, [vn]: dt[fd] };
-      bd.push(tmp);
-  }
-  console.log(bd);
-  return <div>
-    <h4>{ct}: {vn}</h4>
-    <BarChart_ data={bd} keyName={"name"} keyList={[vn]} brush_flag={false} height={300} width={620} />
-    </div>
 }
 
 let tm = undefined;
@@ -162,7 +152,9 @@ let Sentiscomo = (props) => {
     }
   }
 
-  return sentis
+  return <div style={{ width: "100%"}}>
+    {sentis}
+  </div>
 }
 
 let Detailed = (props) => {
@@ -173,7 +165,7 @@ let Detailed = (props) => {
 
   const [collaps, setCollaps] = useState(false);
 
-  return <div style={{marginBottom: "32px"}}>
+  return <div style={{marginBottom: "32px", width: "100%"}}>
     <DT t={"Scenario 3"} collaps={collaps} setCollaps={setCollaps} />
     {collaps ? undefined : <ElectionDetail location={location} />}
     {collaps ? undefined : <Sentiscomo scomoTags={scomoTags} usetimerange={usetimerange} location={location} />}

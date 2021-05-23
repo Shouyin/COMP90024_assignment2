@@ -7,7 +7,7 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  Brush,
+  Brush, ResponsiveContainer
 } from "recharts";
 
 
@@ -40,6 +40,7 @@ export default function LineChart_(props) {
   }
 
   return (
+    <ResponsiveContainer>
     <LineChart
       width={props.width}
       height={props.height}
@@ -58,6 +59,7 @@ export default function LineChart_(props) {
       <Tooltip />
       <Legend />
       {items}
-    </LineChart>
+      </LineChart>
+      </ResponsiveContainer>
   );
 }

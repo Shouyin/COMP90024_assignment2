@@ -70,7 +70,7 @@ let LabourDetailed = (props) => {
   }
 
   return (
-    <div style={detailStyle}>
+    <div style={{ ... detailStyle, width: "100%", height: "320px"}}>
       <h3>Labour data</h3>
       <BarChart_ data={data_1} keyName={"Cities"} keyList={keyList} brush_flag={false} height={300} width={620}></BarChart_>
   </div>
@@ -108,7 +108,7 @@ let MedicareDetailed = (props) => {
   }
 
   return (
-    <div style={detailStyle}>
+    <div style={{ ... detailStyle, width: "100%", height: "320px"}}>
       <h3>Medicare data</h3>
       <BarChart_ data={data_1} keyName={"Cities"} keyList={keyList} brush_flag={false} height={300} width={620}></BarChart_>
   </div>
@@ -147,7 +147,7 @@ let TourismDetailed = (props) => {
   }
 
   return (
-    <div style={detailStyle}>
+    <div style={{ ... detailStyle, width: "100%", height: "320px"}}>
       <h3>Tourism data</h3>
       <BarChart_ data={data_1} keyName={"Cities"} keyList={keyList} brush_flag={false} height={300} width={620}></BarChart_>
   </div>
@@ -230,7 +230,9 @@ let WeeklySentiment = (props) => {
 
   console.log(dispdata)
 
-  return <LineChart_ height={300} width={620} data={dispdata} keyName={"name"} keyList={ks}></LineChart_>
+  return <div style={{width: "100%", height: "320px"}}>
+    <LineChart_ height={300} width={620} data={dispdata} keyName={"name"} keyList={ks}></LineChart_>
+  </div>
 }
 
 

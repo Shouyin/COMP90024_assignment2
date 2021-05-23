@@ -7,7 +7,7 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  Brush
+  Brush, ResponsiveContainer
 } from "recharts";
 
 export default function BarChart_(props){
@@ -39,10 +39,9 @@ export default function BarChart_(props){
     );
   }
 
-  return(
+  return (
+    <ResponsiveContainer>
     <BarChart
-    width={props.width}
-    height={props.height}
     data={props.data}
     margin={{
       top: 5,
@@ -53,11 +52,12 @@ export default function BarChart_(props){
   >
     <CartesianGrid strokeDasharray="3 3" />
     {props.brush_flag? <Brush dataKey={props.keyName} height={30} stroke="#8884d8" />:null}; 
-    <XAxis dataKey={props.keyName} />
+    <XAxis dataKey={props.keyName} interval={0} height={70} angle={-30} dx={-30} dy={20} />
     <YAxis />
     <Tooltip />
     <Legend />
     {items}
-  </BarChart>
+      </BarChart>
+      </ResponsiveContainer>
 );
 }

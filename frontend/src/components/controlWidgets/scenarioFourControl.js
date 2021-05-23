@@ -122,7 +122,7 @@ let Detailed = (props) => {
 
   const foodTags = props.foodTags;
 
-  return <div style={{marginBottom: "32px"}}>
+  return <div style={{width: "100%", marginBottom: "32px"}}>
     <DT t={"Scenario 4: foods"} collaps={collaps} setCollaps={setCollaps} />
     {location.length != 0 ? undefined : <p>No location is selected</p>}
     {state[onlySwitch]  && !collaps ? <h3>Sentiments</h3> : undefined}
@@ -178,6 +178,9 @@ let TimerangeSlider = (props) => {
 
 }
 
+const allfoods = "all foods";
+const alldrinks = "all drinks";
+
 
 export default function ScenarioFourControl(props) {
   // console.log(props.location)
@@ -231,7 +234,18 @@ export default function ScenarioFourControl(props) {
   };
 
   const handleTags = (event) => {
-    let newg = { ...foodTags, [event.target.value]: true };
+    let newg = { ...foodTags };
+    if (event.target.value == allfoods) {
+      for (let i of foods) {
+        newg[i] = true;
+      }
+    } else if (event.target.value == alldrinks) {
+      for (let i of drinks) {
+        newg[i] = true;
+      }
+    } else {
+      newg[event.target.value] = true;
+    }
     // console.log(newg);
     countwt = true;
     setfoodTags(newg);
@@ -293,12 +307,18 @@ export default function ScenarioFourControl(props) {
     let tags = [];
     
     tags.push(<ListSubheader>foods</ListSubheader>);
+    tags.push(
+      <MenuItem value={allfoods}>{allfoods}</MenuItem>
+    )
     for (let i of foods) {
       tags.push(
         <MenuItem value={i}>{i}</MenuItem>
       )
     }
     tags.push(<ListSubheader>drinks</ListSubheader>);
+    tags.push(
+      <MenuItem value={alldrinks}>{alldrinks}</MenuItem>
+    )
     for (let i of drinks) {
       tags.push(
         <MenuItem value={i}>{i}</MenuItem>
