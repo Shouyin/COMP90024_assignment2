@@ -1,0 +1,9 @@
+scrape_configs:
+- job_name: cadv
+  scrape_interval: 3s
+  static_configs:
+  - targets:
+    - cadv.5dj0qjskr00fobwcprohmvfx5.v381vk5itxs4o744wl8ctlgbg:8080
+    - cadv.617lcxva31msqukax88e7q8eu.s031xc7y9zeoqqdul2jmd0bot:8080
+    - cadv.tl8sq9zd91fu1gnlyyvw6fdzc.p1qs7zguxysqgwgua45h7vzgw:8080
+    - cadv.w91ex3rgwhsi3vgt9h3ji20fv.19c16anmacgqe5yb5te6ht29o:8080

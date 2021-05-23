@@ -28,6 +28,21 @@
   loop: "{{ os_instance.results }}"
   when: item.openstack is defined
 
+- name: add host to ips
+  set_fact:
+    ips: '{{ ips|default([]) + [ item.openstack.public_v4 ] }}'
+  loop: "{{ os_instance.results }}"
+  when: item.openstack is defined
+
+# - name: dns
+#   openstack.cloud.recordset:
+#     state: present
+#     zone: unimelb-comp90024-2021-grp-6.cloud.edu.au.
+#     name: www.unimelb-comp90024-2021-grp-6.cloud.edu.au.
+#     recordset_type: "a"
+#     records: "{{ ips }}"
+#     ttl: 3600
+
 - name: Wait for connection
   wait_for:
     host: "{{ item.openstack.public_v4 }}"

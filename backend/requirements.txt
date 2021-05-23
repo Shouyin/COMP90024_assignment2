@@ -1,0 +1,4 @@
+couchdb
+flask
+gunicorn
+numpy

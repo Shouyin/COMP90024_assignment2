@@ -1,0 +1,2 @@
+FROM gcr.io/cadvisor/cadvisor:latest
+# CMD ["-enable_load_reader"]

@@ -7,8 +7,8 @@ volumes:
     vol_size: 125
   - vol_name: v3
     vol_size: 125
-#   - vol_name: v4
-#     vol_size: 125
+  - vol_name: v4
+    vol_size: 125
 
 security_groups:
   - name: autossh
@@ -39,21 +39,21 @@ security_groups:
     port_range_max: 2377
     remote_ip_prefix: 0.0.0.0/0
     direction: ingress
-  - name: autobk
+  - name: autobk # backend debug
     description: "auto bk"
     protocol: tcp
     port_range_min: 8000
     port_range_max: 8000
     remote_ip_prefix: 0.0.0.0/0
     direction: ingress
-  - name: autocc
+  - name: autocc # couchdb
     description: "auto cc"
     protocol: tcp
     port_range_min: 4369
     port_range_max: 4369
     remote_ip_prefix: 0.0.0.0/0
     direction: ingress
-  - name: autoccc
+  - name: autoccc # couchdb
     description: "auto ccc"
     protocol: tcp
     port_range_min: 9100
@@ -65,6 +65,13 @@ security_groups:
     protocol: tcp
     port_range_min: 7946
     port_range_max: 7946
+    remote_ip_prefix: 0.0.0.0/0
+    direction: ingress
+  - name: autotcc # automatically join CouchDB cluster
+    description: "auto tcc"
+    protocol: tcp
+    port_range_min: 3001
+    port_range_max: 3001
     remote_ip_prefix: 0.0.0.0/0
     direction: ingress
   - name: autoswarm2udp
@@ -88,6 +95,13 @@ security_groups:
     port_range_max: 65535
     remote_ip_prefix: 0.0.0.0/0
     direction: ingress
+  - name: autopr # prometheus
+    description: "auto pr"
+    protocol: tcp
+    port_range_min: 9090
+    port_range_max: 9090
+    remote_ip_prefix: 0.0.0.0/0
+    direction: ingress
   - name: autoegress
     description: "auto egress"
     protocol: tcp
@@ -107,6 +121,9 @@ instances:
   - name: n3
     volumes: [v3]
     flavor: uom.mse.2c9g
+  - name: n4
+    volumes: [v4]
+    flavor: uom.mse.1c4g
 
 instance_image: f8b79936-6616-4a22-b55d-0d0a1d27bceb
 instance_key_name: zuomkey

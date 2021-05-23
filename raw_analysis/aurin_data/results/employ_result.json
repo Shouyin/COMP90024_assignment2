@@ -1,0 +1,14 @@
+{
+    "score": {
+        "Greater Brisbane": -3.3245741569,
+        "Greater Melbourne": -1.4887993823,
+        "Greater Sydney": 2.0348500962,
+        "Australian Capital Territory": 2.778523443
+    },
+    "rank": {
+        "Greater Brisbane": 1.0,
+        "Greater Melbourne": 2.0,
+        "Greater Sydney": 3.0,
+        "Australian Capital Territory": 4.0
+    }
+}
