@@ -10,6 +10,8 @@ db = couch['test1']
 
 
 
+
+
 # mapreduce的view,
 # doc1 = {
 #   "_id": "_design/my_ddoc",
@@ -129,19 +131,18 @@ def test1331():
                    "Brisbane": {"Mon": 0, "Tue": 0, "Wed": 0, "Thu": 0, "Fri": 0, "Sat": 0, "Sun": 0},
                    "Sydney": {"Mon": 0, "Tue": 0, "Wed": 0, "Thu": 0, "Fri": 0, "Sat": 0, "Sun": 0},
                    "Other": {"Mon": 0, "Tue": 0, "Wed": 0, "Thu": 0, "Fri": 0, "Sat": 0, "Sun": 0}}
-    city_count_dict = {"Melbourne": 0, "Canberra": 0, "Brisbane": 0, "Sydney": 0, "Other": 0}
+    city_count_dict = {"Melbourne": 29, "Canberra": 4, "Brisbane": 23, "Sydney": 25, "Other": 25}
     for item in db.view('my_ddoc/weekly_sentiment', group_level=2):
         city_name = item.key[1]
         if city_name:
             if item.key[0] in result_dict[city_name]:
-                city_count_dict[city_name] += 1
                 result_dict[city_name][item.key[0]] += item.value
             else:
                 result_dict[city_name][item.key[0]] = item.value
     # divided by tweet count
     for cityname in result_dict:
         for day in result_dict[cityname]:
-            result_dict[city_name][day] /= city_count_dict[city_name]
+            result_dict[cityname][day] = result_dict[cityname][day]/city_count_dict[cityname]
     return jsonify(status=1,
                    content=result_dict)
 
