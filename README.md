@@ -22,15 +22,22 @@ Press the icon button, you can see all commits made by that contributor.
     <td align="center"><a href="https://github.com/SkyeBai"><img src="https://avatars.githubusercontent.com/u/52305027?s=400&u=46ec116cb12d5f7850a4387ca0b39d521c4ce0fc&v=4" width="100px;" alt=""/><br/><sub><b>Qinyu Bai</b></sub></a><br /><a href="https://github.com/Shouyin/COMP90024_assignment2/commits?author=SkyeBai" title="Code">🛠</a></td>
     <!-- Xinze Huang Profile-->
     <td align="center"><a href="https://github.com/xinzehuang"><img src="https://avatars.githubusercontent.com/u/44016281?s=400&v=4" width="100px;" alt=""/><br/><sub><b>Xinze Huang</b></sub></a><br /><a href="https://github.com/Shouyin/COMP90024_assignment2/commits?author=xinzehuang" title="Code">🛠</a></td>
-    
+​    
 
   </tr>
 </table>
 
-## How to run this
+## Directory
 ```bash
-docker-compose up --build # 第一次启动： 需要build
-docker-compose up # 之后启动用这行： 不需要build
+analysis 				: data analysis results
+ansible 				: ansible playbook and roles
+backend 				: backend
+frontend 				: frontend
+infrastructure	: Nginx, CouchDB
+- ttcc					: CouchDB
+- nginx					: nginx
+monitor					: Prometheus and cAdvisor
+raw_analysis
 ```
 
 ## Conventions
