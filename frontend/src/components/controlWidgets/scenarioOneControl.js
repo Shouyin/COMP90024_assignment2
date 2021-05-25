@@ -15,11 +15,25 @@ import mdmedicare from "../../aurin_data/medicare_sa3/metadata_medicare_sa3.json
 import mdlabour from "../../aurin_data/labour_sa4/metadata_labour_sa4.json";
 import mdtouri from "../../aurin_data/tourism_lga2018/metadata_tourism_lga2018.json";
 
+import employres from "../../aurin_data/results/employ_result.json";
+import medicareres from "../../aurin_data/results/medicare_result.json";
+import sentimentres from "../../aurin_data/results/sentiment_result.json";
+import sportres from "../../aurin_data/results/sports_result.json";
+import tourismres from "../../aurin_data/results/tourism_result.json";
+
 
 import PieChart_ from "../plots/PieChart_.js";
 import BarChart_ from "../plots/BarChart_.js";
 import LineChart_ from "../plots/LineChart_.js";
 import { CityDetailed, CityDetailed1 } from "./ctDetail.js";
+import {
+  Radar,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  LabelList
+} from "recharts";
 // import WordCloud_ from "../plots/WordCloud_.js";
 
 import DT from "./detailTitle.js";
@@ -282,28 +296,65 @@ let SportsDetailed = (props) => {
   )
 }
 
+let CityRadar = (city, data) => {
+
+}
+
+let RadarDetail = (props) => {
+  let res = [employres, medicareres, sentimentres,
+    sportres, tourismres];
+
+  let name = ["Employment", "Medicare", "Sentiment", "Sports", "Tourism"];
+
+  let rs = {};
+  for (let ct of Object.keys(citiesNames)) {
+    let i = 0;
+
+    rs[citiesNames[ct]] = [];
+    while (i < res.length) {
+      let re = res[i];
+      let tmp = { "key": name[i] };
+      tmp[citiesNames[ct]] = re["rank"][ct];
+      rs[citiesNames[ct]].push(tmp);
+      i += 1;
+    }
+  }
+
+  let rd = [];
+
+  for (let ctname of Object.keys(rs)) {
+    let dt = rs[ctname];
+    rd.push(<h3>{ctname} result:</h3>)
+    rd.push(
+        <RadarChart outerRadius={90} width={730} height={250} data={dt}>
+      <PolarGrid />
+      <PolarAngleAxis dataKey="key" />
+      <PolarRadiusAxis angle={30} domain={[0, 4]} />
+        <Radar name={ctname} dataKey={ctname} stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+    </RadarChart>
+    )
+  }
+
+  /*let i = 0;
+  while (i < res.length) {
+    let re = res[i];
+    rs.push(re["rank"]);
+    rs[rs.length - 1]["key"] = name[i];
+    // rs[rs.length - 1]["fullmark"] = 4;
+    i += 1;
+  }*/
+
+  return rd;
+  
+}
+
 let ResultDetailed = (props) => {
   const location = props.location;
-
-  // - Bar
-  /*let Keyname = Object.keys(medicare_reduce);
-  let keyList = Object.keys(medicare_reduce[cities[0]]);
-  
-  const data_1 = [];
-  
-  // for (const city of Object.keys(tourism_reduce)) {
-  for (const city of location) {
-    const tmp = {"Cities":city}
-    for (const value of Object.keys(medicare_reduce[city]) ){
-      tmp[value] = medicare_reduce[city][value];
-    }
-    data_1.push(tmp);
-  }*/
 
   return (
     <div style={detailStyle}>
       <h3>Results</h3>
-      <p>Melbourne is the best city, as shown in the blablabla</p>
+      <RadarDetail />
   </div>
   )
 }
