@@ -80,14 +80,3 @@ ansible-playbook playbook.yaml # run the playbook
 
 
 
-## Deploy services
-
-Normally, services can be deployed by running these two scripts, in their directories.
-
-``````
-deploy.sh
-deploy-run.sh
-``````
-
-
-
