@@ -42,7 +42,7 @@ let ElectionDetail = (props) => {
   }
 
   ds.push(
-    <h4>Libral Percent</h4>
+    <h4>Liberal Percent</h4>
   )
 
   ds.push(
@@ -61,7 +61,7 @@ let ElectionDetail = (props) => {
   }
 
   ds.push(
-    <h4>Libral swing</h4>
+    <h4>Liberal Swing</h4>
   )
 
   ds.push(
